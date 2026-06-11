@@ -1,5 +1,11 @@
 const CACHE = 'gas-tracker-v1';
-const ASSETS = ['/', '/index.html', '/manifest.json'];
+const ASSETS = [
+  '/fueltracker/',
+  '/fueltracker/index.html',
+  '/fueltracker/manifest.json',
+  '/fueltracker/icon-192.png',
+  '/fueltracker/icon-512.png'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -16,9 +22,8 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Network first for API calls, cache first for assets
-  if (e.request.url.includes('anthropic.com') || e.request.url.includes('fonts.googleapis')) {
-    return; // let these go through normally
+  if (e.request.url.includes('anthropic.com') || e.request.url.includes('fonts.googleapis') || e.request.url.includes('cdn.jsdelivr')) {
+    return;
   }
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request))
