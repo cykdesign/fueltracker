@@ -11,74 +11,39 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500;600&display=swap" rel="stylesheet" />
-  <!-- Chart.js for charts (no build step needed) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; background: #090b12; color: #e0e2f0; font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     input, select, button { font-family: 'DM Sans', sans-serif; -webkit-appearance: none; appearance: none; }
     input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
-
     .app { min-height: 100vh; padding-bottom: 90px; }
-
-    /* sticky header */
-    .header {
-      position: sticky; top: 0; z-index: 50;
-      background: #090b12; border-bottom: 1px solid #1a1d2b;
-      padding: 14px 16px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
+    .header { position: sticky; top: 0; z-index: 50; background: #090b12; border-bottom: 1px solid #1a1d2b; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
     .header-title { font-size: 18px; font-weight: 600; color: #e8eaf6; }
     .header-sub { font-size: 10px; color: #3a3d52; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
-
-    /* bottom nav */
-    .bottom-nav {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
-      background: #0c0e18; border-top: 1px solid #1a1d2b;
-      display: flex; padding: 8px 16px 20px;
-      gap: 8px;
-    }
-    .nav-btn {
-      flex: 1; padding: 10px 4px; border-radius: 10px; border: none;
-      font-size: 11px; font-weight: 600; cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
-    }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: #0c0e18; border-top: 1px solid #1a1d2b; display: flex; padding: 8px 16px 20px; gap: 8px; }
+    .nav-btn { flex: 1; padding: 10px 4px; border-radius: 10px; border: none; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; }
     .nav-btn .nav-icon { font-size: 18px; }
     .nav-btn.active { background: #1e4ed8; color: #fff; }
     .nav-btn:not(.active) { background: transparent; color: #6b6f8a; }
-
-    /* content */
     .content { padding: 16px 16px 0; max-width: 520px; margin: 0 auto; }
-
-    /* cards */
     .card { background: #0f1117; border: 1px solid #1a1d2b; border-radius: 14px; padding: 16px; margin-bottom: 12px; }
-    .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-    .stat-card { background: #13151f; border: 1px solid #1e2130; border-radius: 12px; padding: 14px 14px; flex: 1; min-width: 100px; }
+    .card-title { font-size: 11px; color: #6b6f8a; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+    .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .stat-card { background: #13151f; border: 1px solid #1e2130; border-radius: 12px; padding: 13px 14px; flex: 1; min-width: 100px; }
     .stat-label { font-size: 10px; color: #565a72; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
-    .stat-value { font-size: 19px; font-weight: 700; font-family: 'DM Mono', monospace; }
-
-    /* form */
+    .stat-value { font-size: 18px; font-weight: 700; font-family: 'DM Mono', monospace; }
+    .stat-sub { font-size: 10px; color: #3a3d52; margin-top: 3px; }
     .field { margin-bottom: 14px; }
     .field-label { display: flex; justify-content: space-between; font-size: 11px; color: #8b8fa8; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 5px; }
     .field-hint { font-size: 10px; color: #3a3d52; text-transform: none; letter-spacing: 0; }
-    .field-input {
-      width: 100%; background: #0c0e18; border: 1px solid #1e2130; border-radius: 8px;
-      color: #e0e2f0; padding: 11px 12px; font-size: 15px; outline: none;
-    }
+    .field-input { width: 100%; background: #0c0e18; border: 1px solid #1e2130; border-radius: 8px; color: #e0e2f0; padding: 11px 12px; font-size: 15px; outline: none; }
     .field-input:focus { border-color: #2a3060; }
     .field-input.error { border-color: #7f1d1d; }
     .field-error { color: #f87171; font-size: 11px; margin-top: 4px; }
-
-    /* scan buttons */
     .scan-row { display: flex; gap: 8px; margin-bottom: 16px; }
-    .scan-btn {
-      flex: 1; background: #13151f; border: 1px solid #1e2130; border-radius: 10px;
-      padding: 15px 8px; color: #c7cae0; font-size: 13px; font-weight: 600; cursor: pointer;
-    }
+    .scan-btn { flex: 1; background: #13151f; border: 1px solid #1e2130; border-radius: 10px; padding: 15px 8px; color: #c7cae0; font-size: 13px; font-weight: 600; cursor: pointer; }
     .scan-btn:disabled { color: #3a3d52; cursor: default; }
-
-    /* log entries */
     .entry-card { background: #0f1117; border: 1px solid #1a1d2b; border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
     .entry-card.open { border-color: #2a2d4a; }
     .entry-row { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -87,24 +52,15 @@
     .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; margin-bottom: 14px; }
     .detail-key { font-size: 10px; color: #565a72; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
     .detail-val { font-size: 13px; color: #c7cae0; }
-
-    /* banner */
     .banner { padding: 8px 16px; border-bottom: 1px solid #1a1d2b; font-size: 11px; }
     .banner-warn { background: #0e1020; color: #4b5080; }
     .banner-ok { background: #071510; border: 1px solid #14532d; border-radius: 8px; color: #34d399; padding: 10px 12px; margin-bottom: 12px; }
     .banner-err { background: #130909; border: 1px solid #7f1d1d; border-radius: 8px; color: #f87171; padding: 10px 12px; margin-bottom: 12px; }
-
-    /* misc */
     .empty { text-align: center; padding: 70px 20px; color: #3a3d52; }
     .empty-icon { font-size: 40px; margin-bottom: 12px; }
-    .primary-btn {
-      width: 100%; background: #1e4ed8; color: #fff; border: none;
-      border-radius: 10px; padding: 15px; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 10px;
-    }
-    .ghost-btn {
-      background: transparent; color: #6b6f8a; border: 1px solid #1e2130;
-      border-radius: 7px; padding: 7px 14px; font-size: 12px; cursor: pointer;
-    }
+    .primary-btn { width: 100%; background: #1e4ed8; color: #fff; border: none; border-radius: 10px; padding: 15px; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 10px; }
+    .ghost-btn { background: transparent; color: #6b6f8a; border: 1px solid #1e2130; border-radius: 7px; padding: 7px 14px; font-size: 12px; cursor: pointer; }
+    .green-btn { background: #052e16; color: #34d399; border: 1px solid #14532d; border-radius: 8px; padding: 10px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
     .delete-btn { background: #7f1d1d; color: #fca5a5; border: none; border-radius: 7px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; }
     .divider { display: flex; align-items: center; gap: 10px; margin: 8px 0 12px; }
     .divider-line { flex: 1; height: 1px; background: #1a1d2b; }
@@ -113,9 +69,17 @@
     .total-preview { background: #0c0e18; border: 1px solid #1a1d2b; border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
     .preview-amt { font-size: 22px; font-weight: 700; font-family: 'DM Mono', monospace; }
     canvas { max-width: 100%; }
-    .chart-label { font-size: 11px; color: #6b6f8a; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
     .preview-img { width: 100%; border-radius: 10px; border: 1px solid #1e2130; max-height: 160px; object-fit: cover; margin-bottom: 12px; }
     select option { background: #0c0e18; }
+    .month-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a1d2b; }
+    .month-row:last-child { border-bottom: none; }
+    .insight-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #1a1d2b; }
+    .insight-row:last-child { border-bottom: none; }
+    .pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+    .pill-green { background: #052e16; color: #34d399; }
+    .pill-red { background: #2d0a0a; color: #f87171; }
+    .pill-blue { background: #0c1a40; color: #60a5fa; }
+    .section-header { font-size: 11px; color: #3a3d52; text-transform: uppercase; letter-spacing: 0.08em; margin: 20px 0 10px; }
   </style>
 </head>
 <body>
@@ -127,34 +91,20 @@
     </div>
     <div id="entry-count" style="font-size:12px;color:#3a3d52;font-family:'DM Mono',monospace;"></div>
   </div>
-
-  <div id="persist-banner" class="banner banner-warn" style="display:none">
-    ⚠ Data saved locally on this device — won't sync to other devices.
-  </div>
-
-  <!-- VIEWS -->
+  <div id="persist-banner" class="banner banner-warn" style="display:none">⚠ Data lives on this device — export CSV regularly to back it up.</div>
   <div class="content">
     <div id="view-dashboard"></div>
     <div id="view-log" style="display:none"></div>
     <div id="view-add" style="display:none"></div>
   </div>
-
-  <!-- Bottom Nav -->
   <nav class="bottom-nav">
-    <button class="nav-btn active" data-view="dashboard" onclick="switchView('dashboard')">
-      <span class="nav-icon">📊</span>Dashboard
-    </button>
-    <button class="nav-btn" data-view="log" onclick="switchView('log')">
-      <span class="nav-icon">📋</span><span id="log-label">Log</span>
-    </button>
-    <button class="nav-btn" data-view="add" onclick="switchView('add')">
-      <span class="nav-icon">⛽</span>Add
-    </button>
+    <button class="nav-btn active" data-view="dashboard" onclick="switchView('dashboard')"><span class="nav-icon">📊</span>Dashboard</button>
+    <button class="nav-btn" data-view="log" onclick="switchView('log')"><span class="nav-icon">📋</span><span id="log-label">Log</span></button>
+    <button class="nav-btn" data-view="add" onclick="switchView('add')"><span class="nav-icon">⛽</span>Add</button>
   </nav>
 </div>
 
 <script>
-// ── state ─────────────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'gas_tracker_entries';
 let entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 let currentView = 'dashboard';
@@ -164,73 +114,107 @@ let scanStatus = null;
 let previewImgUrl = null;
 let formErrors = {};
 let formData = { date: todayStr() };
-let priceChart = null, spendChart = null, mpgChart = null;
 
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-}
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+function fmt(n, d=2) { return Number(n).toFixed(d); }
+function fmtDate(s) { return new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+function fmtShort(s) { return new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
+function fmtMonth(s) { return new Date(s+'-01T00:00:00').toLocaleDateString('en-US',{month:'long',year:'numeric'}); }
 
-function todayStr() {
-  return new Date().toISOString().split('T')[0];
-}
-
-function fmt(n, d = 2) {
-  return Number(n).toFixed(d);
-}
-
-function fmtDate(s) {
-  return new Date(s + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-
-function fmtShort(s) {
-  return new Date(s + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-function sorted() {
-  return [...entries].sort((a, b) => a.date.localeCompare(b.date));
-}
+function sorted() { return [...entries].sort((a,b)=>a.date.localeCompare(b.date)); }
 
 function withMpg(list) {
-  return list.map((e, i) => {
-    const prev = list[i - 1];
+  return list.map((e,i) => {
+    const prev = list[i-1];
     let mpg = null;
-    if (prev && e.odometer && prev.odometer && e.odometer > prev.odometer) {
-      mpg = (e.odometer - prev.odometer) / +e.gallons;
-    } else if (e.milesDriven && +e.milesDriven > 0) {
-      mpg = +e.milesDriven / +e.gallons;
-    }
-    return { ...e, mpg: mpg ? +fmt(mpg, 1) : null };
+    if (prev && e.odometer && prev.odometer && e.odometer > prev.odometer) mpg = (e.odometer - prev.odometer) / +e.gallons;
+    else if (e.milesDriven && +e.milesDriven > 0) mpg = +e.milesDriven / +e.gallons;
+    return { ...e, mpg: mpg ? +fmt(mpg,1) : null };
   });
 }
 
 function computeStats(list) {
   if (!list.length) return null;
-  const totalSpent = list.reduce((s, e) => s + +e.totalCost, 0);
-  const totalGallons = list.reduce((s, e) => s + +e.gallons, 0);
-  const avgPrice = totalSpent / totalGallons;
   const cd = withMpg(list);
+  const totalSpent = list.reduce((s,e) => s + +e.totalCost, 0);
+  const totalGallons = list.reduce((s,e) => s + +e.gallons, 0);
+  const avgPrice = totalSpent / totalGallons;
   const mpgEntries = cd.filter(e => e.mpg);
-  const avgMpg = mpgEntries.length ? mpgEntries.reduce((s, e) => s + e.mpg, 0) / mpgEntries.length : null;
-  return { totalSpent, totalGallons, avgPrice, avgMpg, fillUps: list.length, chartData: cd };
+  const avgMpg = mpgEntries.length ? mpgEntries.reduce((s,e) => s+e.mpg,0)/mpgEntries.length : null;
+  const avgFillup = totalSpent / list.length;
+
+  // cost per mile
+  const cpmEntries = cd.filter(e => e.mpg && e.pricePerGallon);
+  const avgCpm = cpmEntries.length ? cpmEntries.reduce((s,e) => s + (+e.pricePerGallon / e.mpg),0)/cpmEntries.length : null;
+
+  // best/worst price
+  const prices = list.map(e => +e.pricePerGallon);
+  const bestPrice = Math.min(...prices);
+  const worstPrice = Math.max(...prices);
+
+  // longest gap between fill-ups (days)
+  let maxGap = null, maxGapDates = null;
+  for (let i=1; i<list.length; i++) {
+    const d1 = new Date(list[i-1].date+'T00:00:00');
+    const d2 = new Date(list[i].date+'T00:00:00');
+    const gap = Math.round((d2-d1)/(1000*60*60*24));
+    if (maxGap === null || gap > maxGap) { maxGap = gap; maxGapDates = [list[i-1].date, list[i].date]; }
+  }
+
+  // most visited station
+  const stationMap = {};
+  list.forEach(e => { if (e.station) stationMap[e.station] = (stationMap[e.station]||0)+1; });
+  const topStation = Object.keys(stationMap).sort((a,b)=>stationMap[b]-stationMap[a])[0] || null;
+
+  // monthly breakdown
+  const monthMap = {};
+  list.forEach(e => {
+    const mo = e.date.slice(0,7);
+    if (!monthMap[mo]) monthMap[mo] = { spent:0, gallons:0, fillUps:0 };
+    monthMap[mo].spent += +e.totalCost;
+    monthMap[mo].gallons += +e.gallons;
+    monthMap[mo].fillUps++;
+  });
+  const months = Object.keys(monthMap).sort();
+
+  // YTD
+  const thisYear = new Date().getFullYear().toString();
+  const ytd = list.filter(e => e.date.startsWith(thisYear)).reduce((s,e) => s + +e.totalCost, 0);
+
+  // current month
+  const thisMo = todayStr().slice(0,7);
+  const thisMonthSpend = monthMap[thisMo]?.spent || 0;
+  const thisMonthFillups = monthMap[thisMo]?.fillUps || 0;
+
+  // avg days between fill-ups
+  let avgGap = null;
+  if (list.length >= 2) {
+    const d1 = new Date(list[0].date+'T00:00:00');
+    const d2 = new Date(list[list.length-1].date+'T00:00:00');
+    avgGap = Math.round((d2-d1)/(1000*60*60*24) / (list.length-1));
+  }
+
+  return { totalSpent, totalGallons, avgPrice, avgMpg, avgFillup, avgCpm, bestPrice, worstPrice,
+           maxGap, maxGapDates, topStation, months, monthMap, ytd, thisMonthSpend, thisMonthFillups,
+           avgGap, fillUps: list.length, chartData: cd };
 }
 
 // ── routing ───────────────────────────────────────────────────────────────────
 function switchView(v) {
   currentView = v;
-  ['dashboard','log','add'].forEach(name => {
-    document.getElementById('view-' + name).style.display = name === v ? 'block' : 'none';
-    const btn = document.querySelector(`[data-view="${name}"]`);
-    btn.classList.toggle('active', name === v);
+  ['dashboard','log','add'].forEach(n => {
+    document.getElementById('view-'+n).style.display = n===v?'block':'none';
+    document.querySelector(`[data-view="${n}"]`).classList.toggle('active', n===v);
   });
-  if (v === 'dashboard') renderDashboard();
-  else if (v === 'log') renderLog();
+  if (v==='dashboard') renderDashboard();
+  else if (v==='log') renderLog();
   else renderAdd();
   updateHeader();
 }
 
 function updateHeader() {
-  const count = document.getElementById('entry-count');
-  count.textContent = entries.length ? `${entries.length} fill-up${entries.length !== 1 ? 's' : ''}` : '';
+  document.getElementById('entry-count').textContent = entries.length ? `${entries.length} fill-up${entries.length!==1?'s':''}` : '';
   document.getElementById('log-label').textContent = entries.length ? `Log (${entries.length})` : 'Log';
   document.getElementById('persist-banner').style.display = entries.length ? 'block' : 'none';
 }
@@ -239,79 +223,103 @@ function updateHeader() {
 function renderDashboard() {
   const el = document.getElementById('view-dashboard');
   const s = computeStats(sorted());
+
   if (!s) {
-    el.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">⛽</div>
-        <p style="font-size:15px;font-weight:600;color:#565a72;margin-bottom:8px">Nothing tracked yet</p>
-        <p style="font-size:13px;margin-bottom:24px">Add your first fill-up to start.</p>
-        <button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="switchView('add')">+ Log a Fill-up</button>
-      </div>`;
+    el.innerHTML = `<div class="empty"><div class="empty-icon">⛽</div><p style="font-size:15px;font-weight:600;color:#565a72;margin-bottom:8px">Nothing tracked yet</p><p style="font-size:13px;margin-bottom:24px">Add your first fill-up to start.</p><button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="switchView('add')">+ Log a Fill-up</button></div>`;
     return;
   }
 
-  const mpgStat = s.avgMpg ? `<div class="stat-card"><div class="stat-label">Avg MPG</div><div class="stat-value">${fmt(s.avgMpg, 1)}</div></div>` : '';
-
+  // ── top stats ──
   el.innerHTML = `
     <div class="stat-row">
-      <div class="stat-card"><div class="stat-label">Total Spent</div><div class="stat-value" style="color:#34d399">$${fmt(s.totalSpent)}</div></div>
-      <div class="stat-card"><div class="stat-label">Fill-ups</div><div class="stat-value">${s.fillUps}</div></div>
-      <div class="stat-card"><div class="stat-label">Avg $/gal</div><div class="stat-value">$${fmt(s.avgPrice)}</div></div>
-      <div class="stat-card"><div class="stat-label">Gallons</div><div class="stat-value">${fmt(s.totalGallons, 1)}</div></div>
-      ${mpgStat}
+      <div class="stat-card"><div class="stat-label">Total Spent</div><div class="stat-value" style="color:#34d399">$${fmt(s.totalSpent)}</div><div class="stat-sub">all time</div></div>
+      <div class="stat-card"><div class="stat-label">This Month</div><div class="stat-value" style="color:#60a5fa">$${fmt(s.thisMonthSpend)}</div><div class="stat-sub">${s.thisMonthFillups} fill-up${s.thisMonthFillups!==1?'s':''}</div></div>
     </div>
-    ${entries.length < 2
-      ? `<div class="card" style="text-align:center;color:#3a3d52;font-size:13px">Add 1 more fill-up to unlock charts.</div>`
-      : `
-        <div class="card"><div class="chart-label">Price per Gallon</div><canvas id="chart-price"></canvas></div>
-        <div class="card"><div class="chart-label">Spend per Fill-up</div><canvas id="chart-spend"></canvas></div>
-        ${s.chartData.some(d => d.mpg)
-          ? `<div class="card"><div class="chart-label">Fuel Economy (MPG)</div><canvas id="chart-mpg"></canvas></div>`
-          : `<div class="card" style="text-align:center;color:#3a3d52;font-size:13px;padding:20px">No MPG data yet — add odometer or miles driven when logging.</div>`
-        }
-      `
-    }
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-label">YTD Spend</div><div class="stat-value">$${fmt(s.ytd)}</div></div>
+      <div class="stat-card"><div class="stat-label">Avg Fill-up</div><div class="stat-value">$${fmt(s.avgFillup)}</div></div>
+      <div class="stat-card"><div class="stat-label">Avg $/gal</div><div class="stat-value">$${fmt(s.avgPrice)}</div></div>
+    </div>
+    <div class="stat-row">
+      ${s.avgMpg ? `<div class="stat-card"><div class="stat-label">Avg MPG</div><div class="stat-value">${fmt(s.avgMpg,1)}</div></div>` : ''}
+      ${s.avgCpm ? `<div class="stat-card"><div class="stat-label">Cost/Mile</div><div class="stat-value">$${fmt(s.avgCpm,3)}</div></div>` : ''}
+      <div class="stat-card"><div class="stat-label">Gallons</div><div class="stat-value">${fmt(s.totalGallons,1)}</div></div>
+    </div>
+
+    ${entries.length < 2 ? `<div class="card" style="text-align:center;color:#3a3d52;font-size:13px">Add 1 more fill-up to unlock charts.</div>` : `
+
+    <!-- price chart -->
+    <div class="card"><div class="card-title">Price per Gallon</div><canvas id="chart-price"></canvas></div>
+
+    <!-- spend chart -->
+    <div class="card"><div class="card-title">Spend per Fill-up</div><canvas id="chart-spend"></canvas></div>
+
+    <!-- monthly spend -->
+    <div class="card">
+      <div class="card-title">Monthly Spend</div>
+      <canvas id="chart-monthly"></canvas>
+    </div>
+
+    ${s.chartData.some(d=>d.mpg) ? `<div class="card"><div class="card-title">Fuel Economy (MPG)</div><canvas id="chart-mpg"></canvas></div>` : `<div class="card" style="text-align:center;color:#3a3d52;font-size:13px;padding:20px">No MPG data — add odometer or miles driven to enable.</div>`}
+
+    <!-- insights card -->
+    <div class="card">
+      <div class="card-title">Insights</div>
+      <div class="insight-row">
+        <span style="font-size:13px;color:#8b8fa8">Best price paid</span>
+        <span style="font-family:'DM Mono',monospace;font-size:13px;color:#34d399">$${fmt(s.bestPrice)}/gal</span>
+      </div>
+      <div class="insight-row">
+        <span style="font-size:13px;color:#8b8fa8">Worst price paid</span>
+        <span style="font-family:'DM Mono',monospace;font-size:13px;color:#f87171">$${fmt(s.worstPrice)}/gal</span>
+      </div>
+      <div class="insight-row">
+        <span style="font-size:13px;color:#8b8fa8">Price spread</span>
+        <span style="font-family:'DM Mono',monospace;font-size:13px;color:#c7cae0">$${fmt(s.worstPrice-s.bestPrice)}/gal</span>
+      </div>
+      ${s.avgGap ? `<div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Avg days between fill-ups</span><span style="font-size:13px;color:#c7cae0">${s.avgGap} days</span></div>` : ''}
+      ${s.maxGap ? `<div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Longest stretch</span><span style="font-size:13px;color:#c7cae0">${s.maxGap} days</span></div>` : ''}
+      ${s.topStation ? `<div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Most visited station</span><span style="font-size:13px;color:#c7cae0">${s.topStation}</span></div>` : ''}
+    </div>
+
+    <!-- monthly breakdown table -->
+    <div class="card">
+      <div class="card-title">Monthly Breakdown</div>
+      ${[...s.months].reverse().map(mo => `
+        <div class="month-row">
+          <div>
+            <div style="font-size:13px;color:#c7cae0;font-weight:500">${fmtMonth(mo)}</div>
+            <div style="font-size:11px;color:#565a72;margin-top:2px">${s.monthMap[mo].fillUps} fill-up${s.monthMap[mo].fillUps!==1?'s':''} · ${fmt(s.monthMap[mo].gallons,1)} gal</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:#34d399">$${fmt(s.monthMap[mo].spent)}</div>
+            <div style="font-size:11px;color:#565a72">$${fmt(s.monthMap[mo].spent/s.monthMap[mo].gallons)}/gal avg</div>
+          </div>
+        </div>`).join('')}
+    </div>
+    `}
   `;
 
   if (entries.length >= 2) {
     const cd = s.chartData;
     const labels = cd.map(e => fmtShort(e.date));
-    const chartDefaults = {
+    const chartOpts = {
       responsive: true,
       plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0c0e18', borderColor: '#2a2d3a', borderWidth: 1, titleColor: '#8b8fa8', bodyColor: '#e0e2f0' } },
-      scales: {
-        x: { grid: { color: '#1a1d2b' }, ticks: { color: '#565a72', font: { size: 10 } } },
-        y: { grid: { color: '#1a1d2b' }, ticks: { color: '#565a72', font: { size: 10 } } }
-      }
+      scales: { x: { grid: { color: '#1a1d2b' }, ticks: { color: '#565a72', font: { size: 10 } } }, y: { grid: { color: '#1a1d2b' }, ticks: { color: '#565a72', font: { size: 10 } } } }
     };
 
-    // price chart
-    if (document.getElementById('chart-price')) {
-      new Chart(document.getElementById('chart-price'), {
-        type: 'line',
-        data: { labels, datasets: [{ data: cd.map(e => e.pricePerGallon), borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.08)', pointBackgroundColor: '#60a5fa', tension: 0.3, pointRadius: 4 }] },
-        options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, callback: v => `$${v}` } } } }
-      });
-    }
+    new Chart(document.getElementById('chart-price'), { type:'line', data:{ labels, datasets:[{ data:cd.map(e=>e.pricePerGallon), borderColor:'#60a5fa', backgroundColor:'rgba(96,165,250,0.08)', pointBackgroundColor:'#60a5fa', tension:0.3, pointRadius:4 }]}, options:{ ...chartOpts, scales:{ ...chartOpts.scales, y:{ ...chartOpts.scales.y, ticks:{ ...chartOpts.scales.y.ticks, callback:v=>`$${v}` }}}} });
 
-    // spend chart
-    if (document.getElementById('chart-spend')) {
-      new Chart(document.getElementById('chart-spend'), {
-        type: 'bar',
-        data: { labels, datasets: [{ data: cd.map(e => e.totalCost), backgroundColor: '#818cf8', borderRadius: 4 }] },
-        options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, callback: v => `$${v}` } } } }
-      });
-    }
+    new Chart(document.getElementById('chart-spend'), { type:'bar', data:{ labels, datasets:[{ data:cd.map(e=>e.totalCost), backgroundColor:'#818cf8', borderRadius:4 }]}, options:{ ...chartOpts, scales:{ ...chartOpts.scales, y:{ ...chartOpts.scales.y, ticks:{ ...chartOpts.scales.y.ticks, callback:v=>`$${v}` }}}} });
 
-    // mpg chart
-    const mpgData = cd.filter(e => e.mpg);
-    if (mpgData.length && document.getElementById('chart-mpg')) {
-      new Chart(document.getElementById('chart-mpg'), {
-        type: 'line',
-        data: { labels: mpgData.map(e => fmtShort(e.date)), datasets: [{ data: mpgData.map(e => e.mpg), borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,0.08)', pointBackgroundColor: '#34d399', tension: 0.3, pointRadius: 4 }] },
-        options: chartDefaults
-      });
-    }
+    // monthly chart
+    const moLabels = s.months.map(m => new Date(m+'-01T00:00:00').toLocaleDateString('en-US',{month:'short',year:'2-digit'}));
+    const moData = s.months.map(m => +fmt(s.monthMap[m].spent));
+    new Chart(document.getElementById('chart-monthly'), { type:'bar', data:{ labels:moLabels, datasets:[{ data:moData, backgroundColor:'#34d399', borderRadius:4 }]}, options:{ ...chartOpts, scales:{ ...chartOpts.scales, y:{ ...chartOpts.scales.y, ticks:{ ...chartOpts.scales.y.ticks, callback:v=>`$${v}` }}}} });
+
+    const mpgData = cd.filter(d=>d.mpg);
+    if (mpgData.length) new Chart(document.getElementById('chart-mpg'), { type:'line', data:{ labels:mpgData.map(e=>fmtShort(e.date)), datasets:[{ data:mpgData.map(e=>e.mpg), borderColor:'#34d399', backgroundColor:'rgba(52,211,153,0.08)', pointBackgroundColor:'#34d399', tension:0.3, pointRadius:4 }]}, options:chartOpts });
   }
 }
 
@@ -322,279 +330,177 @@ function renderLog() {
   const cd = withMpg(sorted());
 
   if (!list.length) {
-    el.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">📋</div>
-        <p style="font-size:14px;margin-bottom:20px">No fill-ups yet.</p>
-        <button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="switchView('add')">+ Log a Fill-up</button>
-      </div>`;
+    el.innerHTML = `<div class="empty"><div class="empty-icon">📋</div><p style="font-size:14px;margin-bottom:20px">No fill-ups yet.</p><button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="switchView('add')">+ Log a Fill-up</button></div>`;
     return;
   }
 
   el.innerHTML = `
-    <p style="color:#3a3d52;font-size:12px;margin-bottom:14px">${list.length} fill-up${list.length !== 1 ? 's' : ''} · tap to expand</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <p style="color:#3a3d52;font-size:12px">${list.length} fill-up${list.length!==1?'s':''} · tap to expand</p>
+      <button class="green-btn" onclick="exportCSV()">⬇ Export CSV</button>
+    </div>
     ${list.map(e => {
-      const cdEntry = cd.find(d => d.id === e.id);
-      const isOpen = expandedId === e.id;
-      const isDel = deleteConfirmId === e.id;
-
+      const cdEntry = cd.find(d=>d.id===e.id);
+      const isOpen = expandedId===e.id;
+      const isDel = deleteConfirmId===e.id;
       const details = [
-        ['Date', fmtDate(e.date)],
-        ['Gallons', `${e.gallons} gal`],
-        ['Price/gal', `$${fmt(e.pricePerGallon)}`],
-        ['Total', `$${fmt(e.totalCost)}`],
-        e.station && ['Station', e.station],
-        e.grade && ['Grade', e.grade],
+        ['Date', fmtDate(e.date)], ['Gallons', `${e.gallons} gal`],
+        ['Price/gal', `$${fmt(e.pricePerGallon)}`], ['Total', `$${fmt(e.totalCost)}`],
+        e.station && ['Station', e.station], e.grade && ['Grade', e.grade],
         e.paymentMethod && ['Payment', e.paymentMethod],
         e.odometer && ['Odometer', `${Number(e.odometer).toLocaleString()} mi`],
         e.milesDriven && ['Miles driven', `${e.milesDriven} mi`],
-        cdEntry?.mpg && ['MPG', `${fmt(cdEntry.mpg, 1)} mpg`],
+        cdEntry?.mpg && ['MPG', `${fmt(cdEntry.mpg,1)} mpg`],
+        cdEntry?.mpg && e.pricePerGallon && ['Cost/mile', `$${fmt(+e.pricePerGallon/cdEntry.mpg,3)}`],
       ].filter(Boolean);
-
       return `
-        <div class="entry-card ${isOpen ? 'open' : ''}" id="entry-${e.id}">
+        <div class="entry-card ${isOpen?'open':''}" id="entry-${e.id}">
           <div class="entry-row" onclick="toggleEntry(${e.id})">
             <div>
               <div style="font-size:13px;font-weight:600;color:#c7cae0;margin-bottom:3px">${fmtShort(e.date)}</div>
-              <div style="font-size:11px;color:#565a72">${e.gallons} gal${e.station ? ' · ' + e.station : ''}${e.grade ? ' · ' + e.grade : ''}</div>
+              <div style="font-size:11px;color:#565a72">${e.gallons} gal${e.station?' · '+e.station:''}${e.grade?' · '+e.grade:''}</div>
             </div>
             <div style="display:flex;align-items:center;gap:12px">
               <div style="text-align:right">
                 <div style="font-size:15px;font-weight:700;color:#34d399;font-family:'DM Mono',monospace">$${fmt(e.totalCost)}</div>
                 <div style="font-size:11px;color:#565a72">$${fmt(e.pricePerGallon)}/gal</div>
               </div>
-              <span style="color:#3a3d52;font-size:12px">${isOpen ? '▲' : '▼'}</span>
+              <span style="color:#3a3d52;font-size:12px">${isOpen?'▲':'▼'}</span>
             </div>
           </div>
-          <div class="entry-detail ${isOpen ? 'open' : ''}">
-            <div class="detail-grid">
-              ${details.map(([k, v]) => `<div><div class="detail-key">${k}</div><div class="detail-val">${v}</div></div>`).join('')}
-            </div>
+          <div class="entry-detail ${isOpen?'open':''}">
+            <div class="detail-grid">${details.map(([k,v])=>`<div><div class="detail-key">${k}</div><div class="detail-val">${v}</div></div>`).join('')}</div>
             ${isDel
-              ? `<div style="display:flex;gap:8px;align-items:center">
-                  <span style="font-size:12px;color:#f87171;flex:1">Delete this fill-up?</span>
-                  <button class="delete-btn" onclick="confirmDelete(${e.id})">Delete</button>
-                  <button class="ghost-btn" onclick="deleteConfirmId=null;renderLog()">Cancel</button>
-                </div>`
-              : `<button class="ghost-btn" onclick="startDelete(${e.id})">🗑 Delete</button>`
-            }
+              ? `<div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:#f87171;flex:1">Delete this fill-up?</span><button class="delete-btn" onclick="confirmDelete(${e.id})">Delete</button><button class="ghost-btn" onclick="deleteConfirmId=null;renderLog()">Cancel</button></div>`
+              : `<button class="ghost-btn" onclick="startDelete(${e.id})">🗑 Delete</button>`}
           </div>
         </div>`;
     }).join('')}
   `;
 }
 
-function toggleEntry(id) {
-  expandedId = expandedId === id ? null : id;
-  deleteConfirmId = null;
-  renderLog();
-}
-function startDelete(id) { deleteConfirmId = id; renderLog(); }
-function confirmDelete(id) {
-  entries = entries.filter(e => e.id !== id);
-  save();
-  expandedId = null;
-  deleteConfirmId = null;
-  renderLog();
-  updateHeader();
+function toggleEntry(id) { expandedId = expandedId===id?null:id; deleteConfirmId=null; renderLog(); }
+function startDelete(id) { deleteConfirmId=id; renderLog(); }
+function confirmDelete(id) { entries=entries.filter(e=>e.id!==id); save(); expandedId=null; deleteConfirmId=null; renderLog(); updateHeader(); }
+
+// ── CSV export ────────────────────────────────────────────────────────────────
+function exportCSV() {
+  const cd = withMpg(sorted());
+  const headers = ['Date','Gallons','Price/Gal','Total Cost','Station','Grade','Payment','Odometer','Miles Driven','MPG','Cost/Mile'];
+  const rows = cd.map(e => [
+    e.date, e.gallons, e.pricePerGallon, e.totalCost,
+    e.station||'', e.grade||'', e.paymentMethod||'',
+    e.odometer||'', e.milesDriven||'',
+    e.mpg||'',
+    (e.mpg && e.pricePerGallon) ? fmt(+e.pricePerGallon/e.mpg,4) : ''
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `gas-tracker-${todayStr()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 // ── add form ──────────────────────────────────────────────────────────────────
 function renderAdd() {
   const el = document.getElementById('view-add');
-  const total = formData.gallons && formData.pricePerGallon && +formData.gallons > 0 && +formData.pricePerGallon > 0
-    ? `$${fmt(+formData.gallons * +formData.pricePerGallon)}`
-    : '—';
-  const totalColor = total === '—' ? '#3a3d52' : '#34d399';
+  const total = formData.gallons && formData.pricePerGallon && +formData.gallons>0 && +formData.pricePerGallon>0
+    ? `$${fmt(+formData.gallons * +formData.pricePerGallon)}` : '—';
+  const totalColor = total==='—'?'#3a3d52':'#34d399';
 
   el.innerHTML = `
-    <div class="scan-row">
-      <button class="scan-btn" id="cam-btn" onclick="document.getElementById('cam-input').click()">📷 Take Photo</button>
-      <button class="scan-btn" id="file-btn" onclick="document.getElementById('file-input').click()">🖼 Upload</button>
-    </div>
     <input type="file" id="cam-input" accept="image/*" capture="environment" style="display:none" onchange="handleFile(this)" />
     <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFile(this)" />
-
-    ${previewImgUrl ? `<img class="preview-img" src="${previewImgUrl}" alt="receipt" />` : ''}
-    ${scanStatus === 'ok' ? `<div class="banner-ok">✓ Receipt scanned — review and confirm below</div>` : ''}
-    ${scanStatus === 'error' ? `<div class="banner-err">⚠ ${scanStatus === 'error' ? window._scanMsg || 'Scan failed. Fill in manually.' : ''}</div>` : ''}
-    ${window._scanning ? `<p style="color:#60a5fa;font-size:12px;text-align:center;margin-bottom:12px">Reading receipt…</p>` : ''}
-
     <div style="border-top:1px solid #1a1d2b;padding-top:14px;margin-bottom:4px">
       <p style="color:#3a3d52;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px">Fill-up Details</p>
     </div>
-
     ${field('date','Date',true,'date')}
     ${field('gallons','Gallons',true,'number','e.g. 12.4')}
     ${field('pricePerGallon','Price / Gallon ($)',true,'number','e.g. 4.39')}
     ${field('station','Station',false,'text','Chevron, Costco, Shell…')}
     ${selectField('grade','Fuel Grade',['Regular','Midgrade','Premium','Diesel'])}
     ${selectField('paymentMethod','Payment',['Credit','Cash','Debit','Fleet Card'])}
-
     <div class="mpg-box">
-      <p style="color:#6b6f8a;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">
-        MPG Tracking <span style="color:#3a3d52;text-transform:none;letter-spacing:0;font-size:10px">— optional, pick one</span>
-      </p>
+      <p style="color:#6b6f8a;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">MPG Tracking <span style="color:#3a3d52;text-transform:none;letter-spacing:0;font-size:10px">— optional, pick one</span></p>
       ${field('odometer','Odometer Reading (mi)',false,'number','e.g. 43820','Most accurate')}
       <div class="divider"><div class="divider-line"></div><span class="divider-text">or</span><div class="divider-line"></div></div>
       ${field('milesDriven','Miles Since Last Fill-up',false,'number','e.g. 310','If no odometer')}
     </div>
-
     <div class="total-preview">
       <span style="font-size:11px;color:#565a72;text-transform:uppercase;letter-spacing:0.06em">Total</span>
       <span class="preview-amt" style="color:${totalColor}">${total}</span>
     </div>
-
     <button class="primary-btn" onclick="handleSave()">Save Fill-up</button>
   `;
 
-  // re-attach live handlers
   el.querySelectorAll('[data-field]').forEach(input => {
     input.addEventListener('input', e => {
       formData[e.target.dataset.field] = e.target.value;
       formErrors[e.target.dataset.field] = null;
-      // live total update
-      if (e.target.dataset.field === 'gallons' || e.target.dataset.field === 'pricePerGallon') {
-        const t = formData.gallons && formData.pricePerGallon && +formData.gallons > 0 && +formData.pricePerGallon > 0
-          ? `$${fmt(+formData.gallons * +formData.pricePerGallon)}` : '—';
+      if (['gallons','pricePerGallon'].includes(e.target.dataset.field)) {
+        const t = formData.gallons && formData.pricePerGallon && +formData.gallons>0 && +formData.pricePerGallon>0 ? `$${fmt(+formData.gallons * +formData.pricePerGallon)}` : '—';
         const amtEl = el.querySelector('.preview-amt');
-        if (amtEl) { amtEl.textContent = t; amtEl.style.color = t === '—' ? '#3a3d52' : '#34d399'; }
+        if (amtEl) { amtEl.textContent=t; amtEl.style.color=t==='—'?'#3a3d52':'#34d399'; }
       }
     });
-    input.addEventListener('change', e => { formData[e.target.dataset.field] = e.target.value; });
+    input.addEventListener('change', e => { formData[e.target.dataset.field]=e.target.value; });
   });
 }
 
 function field(key, label, required, type, placeholder='', hint='') {
-  const val = formData[key] || '';
-  const err = formErrors[key] || '';
-  return `
-    <div class="field">
-      <div class="field-label">
-        <span>${label}${required ? ' <span style="color:#f87171">*</span>' : ''}</span>
-        ${hint ? `<span class="field-hint">${hint}</span>` : ''}
-      </div>
-      <input class="field-input ${err ? 'error' : ''}" type="${type}" data-field="${key}"
-        value="${val}" placeholder="${placeholder}"
-        ${type === 'number' ? 'step="0.001" min="0"' : ''}
-      />
-      ${err ? `<div class="field-error">${err}</div>` : ''}
-    </div>`;
+  const val = formData[key]||'', err = formErrors[key]||'';
+  return `<div class="field"><div class="field-label"><span>${label}${required?' <span style="color:#f87171">*</span>':''}</span>${hint?`<span class="field-hint">${hint}</span>`:''}</div><input class="field-input ${err?'error':''}" type="${type}" data-field="${key}" value="${val}" placeholder="${placeholder}" ${type==='number'?'step="0.001" min="0"':''}/>${err?`<div class="field-error">${err}</div>`:''}</div>`;
 }
 
 function selectField(key, label, options) {
-  const val = formData[key] || '';
-  return `
-    <div class="field">
-      <div class="field-label"><span>${label}</span></div>
-      <select class="field-input" data-field="${key}">
-        <option value="">Select…</option>
-        ${options.map(o => `<option ${val === o ? 'selected' : ''}>${o}</option>`).join('')}
-      </select>
-    </div>`;
+  const val = formData[key]||'';
+  return `<div class="field"><div class="field-label"><span>${label}</span></div><select class="field-input" data-field="${key}"><option value="">Select…</option>${options.map(o=>`<option ${val===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
 }
 
-// ── save ──────────────────────────────────────────────────────────────────────
 function handleSave() {
   formErrors = {};
-  if (!formData.date) formErrors.date = 'Required';
-  if (!formData.gallons || +formData.gallons <= 0) formErrors.gallons = 'Must be > 0';
-  if (!formData.pricePerGallon || +formData.pricePerGallon <= 0) formErrors.pricePerGallon = 'Must be > 0';
-  if (formData.odometer && +formData.odometer <= 0) formErrors.odometer = 'Must be > 0';
-  if (formData.milesDriven && +formData.milesDriven <= 0) formErrors.milesDriven = 'Must be > 0';
-  if (formData.odometer && entries.length) {
-    const lastOdo = [...sorted()].reverse().find(e => e.odometer)?.odometer;
-    if (lastOdo && +formData.odometer < lastOdo) formErrors.odometer = `Lower than last reading (${Number(lastOdo).toLocaleString()} mi)`;
+  if (!formData.date) formErrors.date='Required';
+  if (!formData.gallons||+formData.gallons<=0) formErrors.gallons='Must be > 0';
+  if (!formData.pricePerGallon||+formData.pricePerGallon<=0) formErrors.pricePerGallon='Must be > 0';
+  if (formData.odometer&&+formData.odometer<=0) formErrors.odometer='Must be > 0';
+  if (formData.milesDriven&&+formData.milesDriven<=0) formErrors.milesDriven='Must be > 0';
+  if (formData.odometer&&entries.length) {
+    const lastOdo = [...sorted()].reverse().find(e=>e.odometer)?.odometer;
+    if (lastOdo&&+formData.odometer<lastOdo) formErrors.odometer=`Lower than last reading (${Number(lastOdo).toLocaleString()} mi)`;
   }
   if (Object.keys(formErrors).length) { renderAdd(); return; }
-
-  const totalCost = formData.totalCost && +formData.totalCost > 0
-    ? +formData.totalCost
-    : +(+formData.gallons * +formData.pricePerGallon).toFixed(2);
-
-  entries.push({
-    ...formData, id: Date.now(), totalCost,
-    gallons: +formData.gallons,
-    pricePerGallon: +formData.pricePerGallon,
-    odometer: formData.odometer ? +formData.odometer : null,
-    milesDriven: formData.milesDriven ? +formData.milesDriven : null,
-  });
+  const totalCost = formData.totalCost&&+formData.totalCost>0 ? +formData.totalCost : +(+formData.gallons * +formData.pricePerGallon).toFixed(2);
+  entries.push({ ...formData, id:Date.now(), totalCost, gallons:+formData.gallons, pricePerGallon:+formData.pricePerGallon, odometer:formData.odometer?+formData.odometer:null, milesDriven:formData.milesDriven?+formData.milesDriven:null });
   save();
-
-  formData = { date: todayStr() };
-  formErrors = {};
-  previewImgUrl = null;
-  scanStatus = null;
-  window._scanMsg = '';
-  window._scanning = false;
-  updateHeader();
-  switchView('log');
+  formData={date:todayStr()}; formErrors={}; previewImgUrl=null; scanStatus=null; window._scanMsg=''; window._scanning=false;
+  updateHeader(); switchView('log');
 }
 
-// ── image scan ────────────────────────────────────────────────────────────────
 async function handleFile(input) {
-  const file = input.files?.[0];
-  if (!file) return;
-  input.value = '';
-  previewImgUrl = URL.createObjectURL(file);
-  window._scanning = true;
-  scanStatus = null;
-  renderAdd();
-
+  const file = input.files?.[0]; if (!file) return; input.value='';
+  previewImgUrl = URL.createObjectURL(file); window._scanning=true; scanStatus=null; renderAdd();
   try {
-    const base64 = await new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload = () => res(r.result.split(',')[1]);
-      r.onerror = () => rej(new Error('Read failed'));
-      r.readAsDataURL(file);
-    });
-
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: file.type || 'image/jpeg', data: base64 } },
-            { type: 'text', text: `Extract gas pump or receipt data. Return ONLY valid JSON, no markdown:\n{"date":"YYYY-MM-DD or null","gallons":number|null,"pricePerGallon":number|null,"totalCost":number|null,"station":"string|null","grade":"Regular|Midgrade|Premium|Diesel|null"}\nToday is ${todayStr()}. Use today if no date visible. Use null for unreadable fields.` }
-          ]
-        }]
-      })
-    });
-
+    const base64 = await new Promise((res,rej) => { const r=new FileReader(); r.onload=()=>res(r.result.split(',')[1]); r.onerror=()=>rej(new Error('Read failed')); r.readAsDataURL(file); });
+    const resp = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, messages:[{ role:'user', content:[{ type:'image', source:{type:'base64',media_type:file.type||'image/jpeg',data:base64}},{ type:'text', text:`Extract gas pump or receipt data. Return ONLY valid JSON, no markdown:\n{"date":"YYYY-MM-DD or null","gallons":number|null,"pricePerGallon":number|null,"totalCost":number|null,"station":"string|null","grade":"Regular|Midgrade|Premium|Diesel|null"}\nToday is ${todayStr()}. Use today if no date visible. Use null for unreadable fields.`}]}]}) });
     const data = await resp.json();
-    const raw = data.content?.find(b => b.type === 'text')?.text?.trim() || '';
-    let parsed;
-    try { parsed = JSON.parse(raw); }
-    catch { const m = raw.match(/\{[\s\S]*?\}/); parsed = m ? JSON.parse(m[0]) : null; }
+    const raw = data.content?.find(b=>b.type==='text')?.text?.trim()||'';
+    let parsed; try { parsed=JSON.parse(raw); } catch { const m=raw.match(/\{[\s\S]*?\}/); parsed=m?JSON.parse(m[0]):null; }
     if (!parsed) throw new Error("Couldn't read clearly. Fill in manually.");
-
-    if (parsed.date) formData.date = parsed.date;
-    if (parsed.gallons != null) formData.gallons = String(parsed.gallons);
-    if (parsed.pricePerGallon != null) formData.pricePerGallon = String(parsed.pricePerGallon);
-    if (parsed.totalCost != null) formData.totalCost = String(parsed.totalCost);
-    if (parsed.station) formData.station = parsed.station;
-    if (parsed.grade) formData.grade = parsed.grade;
-
-    scanStatus = 'ok';
-  } catch (err) {
-    scanStatus = 'error';
-    window._scanMsg = err.message || 'Scan failed.';
-  } finally {
-    window._scanning = false;
-    renderAdd();
-  }
+    if (parsed.date) formData.date=parsed.date;
+    if (parsed.gallons!=null) formData.gallons=String(parsed.gallons);
+    if (parsed.pricePerGallon!=null) formData.pricePerGallon=String(parsed.pricePerGallon);
+    if (parsed.totalCost!=null) formData.totalCost=String(parsed.totalCost);
+    if (parsed.station) formData.station=parsed.station;
+    if (parsed.grade) formData.grade=parsed.grade;
+    scanStatus='ok';
+  } catch(err) { scanStatus='error'; window._scanMsg=err.message||'Scan failed.'; }
+  finally { window._scanning=false; renderAdd(); }
 }
 
-// ── service worker ────────────────────────────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-}
-
-// ── init ──────────────────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 switchView('dashboard');
 updateHeader();
 </script>
