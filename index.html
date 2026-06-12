@@ -89,9 +89,12 @@
       <div class="header-sub">Fuel Log</div>
       <div class="header-title">Gas Tracker</div>
     </div>
-    <div id="entry-count" style="font-size:12px;color:#3a3d52;font-family:'DM Mono',monospace;"></div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+      <div id="entry-count" style="font-size:12px;color:#3a3d52;font-family:'DM Mono',monospace;"></div>
+      <div id="sync-status" style="font-size:11px;"></div>
+    </div>
   </div>
-  <div id="persist-banner" class="banner banner-warn" style="display:none">⚠ Data lives on this device — export CSV regularly to back it up.</div>
+  <div id="persist-banner" class="banner banner-warn" style="display:none">☁ Data synced to cloud — safe across devices.</div>
   <div class="content">
     <div id="view-dashboard"></div>
     <div id="view-log" style="display:none"></div>
@@ -105,6 +108,18 @@
 </div>
 
 <script>
+// ── Supabase config ───────────────────────────────────────────────────────────
+const SUPA_URL = 'https://kqmsjolekyivtqszqbvu.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxbXNqb2xla3lpdnRxc3pxYnZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMTUwNTUsImV4cCI6MjA5Njc5MTA1NX0.qTkBhdGMyO4maejF4EagwZg7PH0JMGSZhuFFYeuh6Lc';
+const HEADERS = { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY };
+
+async function dbFetch(path, opts={}) {
+  const res = await fetch(SUPA_URL + '/rest/v1/' + path, { headers: HEADERS, ...opts });
+  if (!res.ok) throw new Error(await res.text());
+  return res.status === 204 ? null : res.json();
+}
+
+// ── state ─────────────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'gas_tracker_entries';
 let entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 let currentView = 'dashboard';
@@ -114,8 +129,74 @@ let scanStatus = null;
 let previewImgUrl = null;
 let formErrors = {};
 let formData = { date: todayStr() };
+let syncStatus = 'idle'; // idle | syncing | ok | error
 
-function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
+// save locally AND push to Supabase
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+}
+
+async function pushToSupabase(entry) {
+  setSyncStatus('syncing');
+  try {
+    await dbFetch('fillups', {
+      method: 'POST',
+      headers: { ...HEADERS, 'Prefer': 'resolution=merge-duplicates' },
+      body: JSON.stringify({
+        id: entry.id,
+        date: entry.date,
+        gallons: entry.gallons,
+        price_per_gallon: entry.pricePerGallon,
+        total_cost: entry.totalCost,
+        station: entry.station || null,
+        grade: entry.grade || null,
+        payment_method: entry.paymentMethod || null,
+        odometer: entry.odometer || null,
+        miles_driven: entry.milesDriven || null,
+      })
+    });
+    setSyncStatus('ok');
+  } catch(e) {
+    console.error('Supabase push failed:', e);
+    setSyncStatus('error');
+  }
+}
+
+async function deleteFromSupabase(id) {
+  try { await dbFetch(`fillups?id=eq.${id}`, { method: 'DELETE' }); } catch(e) { console.error('Delete failed:', e); }
+}
+
+async function loadFromSupabase() {
+  setSyncStatus('syncing');
+  try {
+    const rows = await dbFetch('fillups?select=*&order=date.asc');
+    entries = rows.map(r => ({
+      id: r.id, date: r.date,
+      gallons: +r.gallons, pricePerGallon: +r.price_per_gallon,
+      totalCost: +r.total_cost, station: r.station, grade: r.grade,
+      paymentMethod: r.payment_method, odometer: r.odometer ? +r.odometer : null,
+      milesDriven: r.miles_driven ? +r.miles_driven : null,
+    }));
+    save(); // update local cache
+    setSyncStatus('ok');
+    updateHeader();
+    if (currentView === 'dashboard') renderDashboard();
+    else if (currentView === 'log') renderLog();
+  } catch(e) {
+    console.error('Supabase load failed:', e);
+    setSyncStatus('error');
+  }
+}
+
+function setSyncStatus(s) {
+  syncStatus = s;
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  const map = { syncing: '⟳ Syncing…', ok: '✓ Synced', error: '⚠ Sync failed', idle: '' };
+  const col = { syncing: '#60a5fa', ok: '#34d399', error: '#f87171', idle: '#3a3d52' };
+  el.textContent = map[s] || '';
+  el.style.color = col[s] || '#3a3d52';
+}
 function todayStr() { return new Date().toISOString().split('T')[0]; }
 function fmt(n, d=2) { return Number(n).toFixed(d); }
 function fmtDate(s) { return new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
@@ -381,7 +462,7 @@ function renderLog() {
 
 function toggleEntry(id) { expandedId = expandedId===id?null:id; deleteConfirmId=null; renderLog(); }
 function startDelete(id) { deleteConfirmId=id; renderLog(); }
-function confirmDelete(id) { entries=entries.filter(e=>e.id!==id); save(); expandedId=null; deleteConfirmId=null; renderLog(); updateHeader(); }
+function confirmDelete(id) { entries=entries.filter(e=>e.id!==id); save(); deleteFromSupabase(id); expandedId=null; deleteConfirmId=null; renderLog(); updateHeader(); }
 
 // ── CSV export ────────────────────────────────────────────────────────────────
 function exportCSV() {
@@ -475,6 +556,7 @@ function handleSave() {
   const totalCost = formData.totalCost&&+formData.totalCost>0 ? +formData.totalCost : +(+formData.gallons * +formData.pricePerGallon).toFixed(2);
   entries.push({ ...formData, id:Date.now(), totalCost, gallons:+formData.gallons, pricePerGallon:+formData.pricePerGallon, odometer:formData.odometer?+formData.odometer:null, milesDriven:formData.milesDriven?+formData.milesDriven:null });
   save();
+  pushToSupabase(entries[entries.length-1]);
   formData={date:todayStr()}; formErrors={}; previewImgUrl=null; scanStatus=null; window._scanMsg=''; window._scanning=false;
   updateHeader(); switchView('log');
 }
@@ -503,6 +585,7 @@ async function handleFile(input) {
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 switchView('dashboard');
 updateHeader();
+loadFromSupabase(); // load fresh data from cloud on every app open
 </script>
 </body>
 </html>
