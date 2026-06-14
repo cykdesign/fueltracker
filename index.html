@@ -141,8 +141,37 @@ function authHeaders(extra={}) {
   return { 'Content-Type':'application/json', 'apikey':SUPA_KEY, 'Authorization':'Bearer '+token, ...extra };
 }
 
+async function refreshSession() {
+  const saved = localStorage.getItem('gas_user');
+  if (!saved) return false;
+  try {
+    const parsed = JSON.parse(saved);
+    const refreshToken = parsed.refresh_token;
+    if (!refreshToken) return false;
+    const res = await fetch(SUPA_URL+'/auth/v1/token?grant_type=refresh_token', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'apikey': SUPA_KEY },
+      body: JSON.stringify({ refresh_token: refreshToken })
+    });
+    if (!res.ok) return false;
+    const data = await res.json();
+    currentUser = data;
+    localStorage.setItem('gas_user', JSON.stringify(data));
+    return true;
+  } catch(e) { return false; }
+}
+
 async function dbFetch(path, opts={}) {
-  const res = await fetch(SUPA_URL+'/rest/v1/'+path, { headers: authHeaders(), ...opts });
+  let res = await fetch(SUPA_URL+'/rest/v1/'+path, { headers: authHeaders(), ...opts });
+  // if 401, try refreshing the token once and retry
+  if (res.status === 401) {
+    const refreshed = await refreshSession();
+    if (refreshed) {
+      res = await fetch(SUPA_URL+'/rest/v1/'+path, { headers: authHeaders(), ...opts });
+    } else {
+      signOut(); return;
+    }
+  }
   if (!res.ok) throw new Error(await res.text());
   return res.status===204 ? null : res.json();
 }
