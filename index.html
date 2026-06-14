@@ -21,9 +21,9 @@
     .header { position: sticky; top: 0; z-index: 50; background: #090b12; border-bottom: 1px solid #1a1d2b; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
     .header-title { font-size: 18px; font-weight: 600; color: #e8eaf6; }
     .header-sub { font-size: 10px; color: #3a3d52; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: #0c0e18; border-top: 1px solid #1a1d2b; display: flex; padding: 8px 16px 20px; gap: 8px; }
-    .nav-btn { flex: 1; padding: 10px 4px; border-radius: 10px; border: none; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; }
-    .nav-btn .nav-icon { font-size: 18px; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: #0c0e18; border-top: 1px solid #1a1d2b; display: flex; padding: 8px 8px 20px; gap: 4px; }
+    .nav-btn { flex: 1; padding: 8px 4px; border-radius: 10px; border: none; font-size: 10px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .nav-btn .nav-icon { font-size: 17px; }
     .nav-btn.active { background: #1e4ed8; color: #fff; }
     .nav-btn:not(.active) { background: transparent; color: #6b6f8a; }
     .content { padding: 16px 16px 0; max-width: 520px; margin: 0 auto; }
@@ -34,16 +34,13 @@
     .stat-label { font-size: 10px; color: #565a72; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
     .stat-value { font-size: 18px; font-weight: 700; font-family: 'DM Mono', monospace; }
     .stat-sub { font-size: 10px; color: #3a3d52; margin-top: 3px; }
-    .field { margin-bottom: 14px; }
+    .field { margin-bottom: 14px; position: relative; }
     .field-label { display: flex; justify-content: space-between; font-size: 11px; color: #8b8fa8; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 5px; }
     .field-hint { font-size: 10px; color: #3a3d52; text-transform: none; letter-spacing: 0; }
     .field-input { width: 100%; background: #0c0e18; border: 1px solid #1e2130; border-radius: 8px; color: #e0e2f0; padding: 11px 12px; font-size: 15px; outline: none; }
     .field-input:focus { border-color: #2a3060; }
     .field-input.error { border-color: #7f1d1d; }
     .field-error { color: #f87171; font-size: 11px; margin-top: 4px; }
-    .scan-row { display: flex; gap: 8px; margin-bottom: 16px; }
-    .scan-btn { flex: 1; background: #13151f; border: 1px solid #1e2130; border-radius: 10px; padding: 15px 8px; color: #c7cae0; font-size: 13px; font-weight: 600; cursor: pointer; }
-    .scan-btn:disabled { color: #3a3d52; cursor: default; }
     .entry-card { background: #0f1117; border: 1px solid #1a1d2b; border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
     .entry-card.open { border-color: #2a2d4a; }
     .entry-row { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -56,7 +53,7 @@
     .banner-warn { background: #0e1020; color: #4b5080; }
     .banner-ok { background: #071510; border: 1px solid #14532d; border-radius: 8px; color: #34d399; padding: 10px 12px; margin-bottom: 12px; }
     .banner-err { background: #130909; border: 1px solid #7f1d1d; border-radius: 8px; color: #f87171; padding: 10px 12px; margin-bottom: 12px; }
-    .empty { text-align: center; padding: 70px 20px; color: #3a3d52; }
+    .empty { text-align: center; padding: 60px 20px; color: #3a3d52; }
     .empty-icon { font-size: 40px; margin-bottom: 12px; }
     .primary-btn { width: 100%; background: #1e4ed8; color: #fff; border: none; border-radius: 10px; padding: 15px; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 10px; }
     .ghost-btn { background: transparent; color: #6b6f8a; border: 1px solid #1e2130; border-radius: 7px; padding: 7px 14px; font-size: 12px; cursor: pointer; }
@@ -69,20 +66,36 @@
     .total-preview { background: #0c0e18; border: 1px solid #1a1d2b; border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
     .preview-amt { font-size: 22px; font-weight: 700; font-family: 'DM Mono', monospace; }
     canvas { max-width: 100%; }
-    .preview-img { width: 100%; border-radius: 10px; border: 1px solid #1e2130; max-height: 160px; object-fit: cover; margin-bottom: 12px; }
     select option { background: #0c0e18; }
     .month-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a1d2b; }
     .month-row:last-child { border-bottom: none; }
     .insight-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #1a1d2b; }
     .insight-row:last-child { border-bottom: none; }
-    .pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
-    .pill-green { background: #052e16; color: #34d399; }
-    .pill-red { background: #2d0a0a; color: #f87171; }
-    .pill-blue { background: #0c1a40; color: #60a5fa; }
-    .section-header { font-size: 11px; color: #3a3d52; text-transform: uppercase; letter-spacing: 0.08em; margin: 20px 0 10px; }
+    /* car filter tabs */
+    .car-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: none; }
+    .car-tabs::-webkit-scrollbar { display: none; }
+    .car-tab { flex-shrink: 0; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid #1e2130; background: transparent; color: #6b6f8a; white-space: nowrap; }
+    .car-tab.active { background: #1e4ed8; border-color: #1e4ed8; color: #fff; }
+    /* garage car card */
+    .garage-card { background: #0f1117; border: 1px solid #1a1d2b; border-radius: 14px; padding: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .car-color-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; flex-shrink: 0; }
+    /* autocomplete dropdown */
+    .autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; background: #0f1117; border: 1px solid #2a2d3a; border-radius: 8px; z-index: 100; margin-top: 4px; max-height: 200px; overflow-y: auto; }
+    .autocomplete-item { padding: 11px 12px; font-size: 13px; cursor: pointer; border-bottom: 1px solid #1a1d2b; color: #c7cae0; }
+    .autocomplete-item:last-child { border-bottom: none; }
+    .autocomplete-item:hover, .autocomplete-item.selected { background: #1a1d2b; }
+    .autocomplete-sub { font-size: 11px; color: #565a72; margin-top: 2px; }
+    /* garage modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: flex; align-items: flex-end; justify-content: center; }
+    .modal { background: #0f1117; border-radius: 20px 20px 0 0; padding: 24px 20px 40px; width: 100%; max-width: 520px; }
+    .modal-title { font-size: 16px; font-weight: 600; color: #e8eaf6; margin-bottom: 20px; }
+    .color-picker { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .color-swatch { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+    .color-swatch.selected { border-color: #fff; }
   </style>
 </head>
 <body>
+
 <!-- Auth screen -->
 <div id="auth-screen" style="display:flex;min-height:100vh;align-items:center;justify-content:center;background:#090b12;"></div>
 
@@ -96,526 +109,514 @@
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
       <div id="sync-status" style="font-size:11px;"></div>
-      <div id="user-email" style="font-size:10px;color:#3a3d52;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" onclick="confirmSignOut()"></div>
+      <div id="user-email" style="font-size:10px;color:#3a3d52;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" onclick="confirmSignOut()"></div>
     </div>
   </div>
-  <div id="persist-banner" class="banner banner-warn" style="display:none">☁ Data synced to cloud — safe across devices.</div>
+  <div id="persist-banner" class="banner banner-warn" style="display:none">☁ Synced to cloud</div>
   <div class="content">
     <div id="view-dashboard"></div>
     <div id="view-log" style="display:none"></div>
     <div id="view-add" style="display:none"></div>
+    <div id="view-garage" style="display:none"></div>
   </div>
   <nav class="bottom-nav">
     <button class="nav-btn active" data-view="dashboard" onclick="switchView('dashboard')"><span class="nav-icon">📊</span>Dashboard</button>
     <button class="nav-btn" data-view="log" onclick="switchView('log')"><span class="nav-icon">📋</span><span id="log-label">Log</span></button>
     <button class="nav-btn" data-view="add" onclick="switchView('add')"><span class="nav-icon">⛽</span>Add</button>
+    <button class="nav-btn" data-view="garage" onclick="switchView('garage')"><span class="nav-icon">🚗</span>Garage</button>
   </nav>
 </div>
 </div><!-- end main-app -->
 
+<div id="modal-root"></div>
+
 <script>
-// ── Supabase config ───────────────────────────────────────────────────────────
+// ── Supabase ──────────────────────────────────────────────────────────────────
 const SUPA_URL = 'https://kqmsjolekyivtqszqbvu.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxbXNqb2xla3lpdnRxc3pxYnZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMTUwNTUsImV4cCI6MjA5Njc5MTA1NX0.qTkBhdGMyO4maejF4EagwZg7PH0JMGSZhuFFYeuh6Lc';
+let currentUser = null;
 
-let currentUser = null; // { access_token, user: { id, email } }
-
-function authHeaders() {
+function authHeaders(extra={}) {
   const token = currentUser?.access_token || SUPA_KEY;
-  return { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + token };
+  return { 'Content-Type':'application/json', 'apikey':SUPA_KEY, 'Authorization':'Bearer '+token, ...extra };
 }
 
 async function dbFetch(path, opts={}) {
-  const res = await fetch(SUPA_URL + '/rest/v1/' + path, { headers: authHeaders(), ...opts });
+  const res = await fetch(SUPA_URL+'/rest/v1/'+path, { headers: authHeaders(), ...opts });
   if (!res.ok) throw new Error(await res.text());
-  return res.status === 204 ? null : res.json();
+  return res.status===204 ? null : res.json();
 }
 
 async function authFetch(path, body) {
-  const res = await fetch(SUPA_URL + '/auth/v1/' + path, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY },
-    body: JSON.stringify(body)
-  });
+  const res = await fetch(SUPA_URL+'/auth/v1/'+path, { method:'POST', headers:{'Content-Type':'application/json','apikey':SUPA_KEY}, body:JSON.stringify(body) });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error_description || data.msg || 'Auth error');
+  if (!res.ok) throw new Error(data.error_description||data.msg||'Auth error');
   return data;
 }
 
 // ── auth ──────────────────────────────────────────────────────────────────────
 async function signUp(email, password) {
-  const data = await authFetch('signup', { email, password });
-  currentUser = data;
-  localStorage.setItem('gas_user', JSON.stringify(data));
-  showApp();
-  loadFromSupabase();
+  const data = await authFetch('signup', {email, password});
+  currentUser = data; localStorage.setItem('gas_user', JSON.stringify(data));
+  showApp(); await loadAll();
 }
-
 async function signIn(email, password) {
-  const data = await authFetch('token?grant_type=password', { email, password });
-  currentUser = data;
-  localStorage.setItem('gas_user', JSON.stringify(data));
-  showApp();
-  loadFromSupabase();
+  const data = await authFetch('token?grant_type=password', {email, password});
+  currentUser = data; localStorage.setItem('gas_user', JSON.stringify(data));
+  showApp(); await loadAll();
 }
-
 function signOut() {
-  currentUser = null;
-  entries = [];
-  localStorage.removeItem('gas_user');
-  localStorage.removeItem('gas_tracker_entries');
+  currentUser=null; entries=[]; cars=[]; selectedCarId='all';
+  localStorage.removeItem('gas_user'); localStorage.removeItem('gas_tracker_entries'); localStorage.removeItem('gas_tracker_cars');
   showAuth('login');
 }
+function confirmSignOut() { if (confirm(`Sign out of ${currentUser?.user?.email}?`)) signOut(); }
 
 function showApp() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('main-app').style.display = 'block';
-  const email = currentUser?.user?.email || '';
-  document.getElementById('user-email').textContent = email;
-  switchView('dashboard');
-  updateHeader();
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('main-app').style.display='block';
+  document.getElementById('user-email').textContent = currentUser?.user?.email||'';
+  switchView('dashboard'); updateHeader();
 }
-
 function showAuth(mode='login') {
-  document.getElementById('auth-screen').style.display = 'flex';
-  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('auth-screen').style.display='flex';
+  document.getElementById('main-app').style.display='none';
   renderAuth(mode);
 }
-
 function renderAuth(mode) {
-  const isLogin = mode === 'login';
+  const isLogin = mode==='login';
   document.getElementById('auth-screen').innerHTML = `
-    <div style="width:100%;max-width:380px;padding:32px 24px;">
+    <div style="width:100%;max-width:380px;padding:32px 24px">
       <div style="text-align:center;margin-bottom:40px">
-        <img src="icon-192.png" style="width:72px;height:72px;border-radius:18px;margin-bottom:16px" />
+        <img src="icon-192.png" style="width:72px;height:72px;border-radius:18px;margin-bottom:16px"/>
         <h1 style="font-size:22px;font-weight:600;color:#e8eaf6;margin-bottom:4px">Gas Tracker</h1>
-        <p style="font-size:13px;color:#565a72">${isLogin ? 'Sign in to your account' : 'Create your account'}</p>
+        <p style="font-size:13px;color:#565a72">${isLogin?'Sign in to your account':'Create your account'}</p>
       </div>
-      <div id="auth-error" style="display:none;background:#130909;border:1px solid #7f1d1d;border-radius:8px;padding:10px 12px;margin-bottom:16px;color:#f87171;font-size:13px;"></div>
-      <div class="field">
-        <div class="field-label">Email</div>
-        <input class="field-input" type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" />
-      </div>
-      <div class="field">
-        <div class="field-label">Password</div>
-        <input class="field-input" type="password" id="auth-password" placeholder="••••••••" autocomplete="${isLogin?'current-password':'new-password'}" />
-      </div>
-      <button class="primary-btn" id="auth-submit" onclick="handleAuth('${mode}')" style="margin-top:8px">
-        ${isLogin ? 'Sign In' : 'Create Account'}
-      </button>
+      <div id="auth-error" style="display:none;background:#130909;border:1px solid #7f1d1d;border-radius:8px;padding:10px 12px;margin-bottom:16px;color:#f87171;font-size:13px"></div>
+      <div class="field"><div class="field-label">Email</div><input class="field-input" type="email" id="auth-email" placeholder="you@example.com" autocomplete="email"/></div>
+      <div class="field"><div class="field-label">Password</div><input class="field-input" type="password" id="auth-password" placeholder="••••••••" autocomplete="${isLogin?'current-password':'new-password'}"/></div>
+      <button class="primary-btn" id="auth-submit" onclick="handleAuth('${mode}')" style="margin-top:8px">${isLogin?'Sign In':'Create Account'}</button>
       <p style="text-align:center;font-size:13px;color:#565a72;margin-top:16px">
-        ${isLogin
-          ? `Don't have an account? <a href="#" onclick="renderAuth('signup');return false" style="color:#60a5fa;text-decoration:none">Sign up</a>`
-          : `Already have an account? <a href="#" onclick="renderAuth('login');return false" style="color:#60a5fa;text-decoration:none">Sign in</a>`
-        }
+        ${isLogin?`Don't have an account? <a href="#" onclick="renderAuth('signup');return false" style="color:#60a5fa;text-decoration:none">Sign up</a>`:`Already have an account? <a href="#" onclick="renderAuth('login');return false" style="color:#60a5fa;text-decoration:none">Sign in</a>`}
       </p>
-    </div>
-  `;
-
-  // allow enter key to submit
-  setTimeout(() => {
-    document.getElementById('auth-password')?.addEventListener('keydown', e => {
-      if (e.key === 'Enter') handleAuth(mode);
-    });
-  }, 50);
+    </div>`;
+  setTimeout(()=>{ document.getElementById('auth-password')?.addEventListener('keydown', e=>{ if(e.key==='Enter') handleAuth(mode); }); },50);
 }
-
 async function handleAuth(mode) {
   const email = document.getElementById('auth-email')?.value?.trim();
   const password = document.getElementById('auth-password')?.value;
   const errEl = document.getElementById('auth-error');
   const btn = document.getElementById('auth-submit');
-  if (!email || !password) { errEl.textContent='Please fill in all fields.'; errEl.style.display='block'; return; }
-  btn.textContent = 'Please wait…'; btn.disabled = true;
-  try {
-    if (mode === 'login') await signIn(email, password);
-    else await signUp(email, password);
-  } catch(e) {
-    errEl.textContent = e.message; errEl.style.display = 'block';
-    btn.textContent = mode === 'login' ? 'Sign In' : 'Create Account'; btn.disabled = false;
-  }
+  if (!email||!password) { errEl.textContent='Please fill in all fields.'; errEl.style.display='block'; return; }
+  btn.textContent='Please wait…'; btn.disabled=true;
+  try { if(mode==='login') await signIn(email,password); else await signUp(email,password); }
+  catch(e) { errEl.textContent=e.message; errEl.style.display='block'; btn.textContent=mode==='login'?'Sign In':'Create Account'; btn.disabled=false; }
 }
 
 // ── state ─────────────────────────────────────────────────────────────────────
-const STORAGE_KEY = 'gas_tracker_entries';
-let entries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let entries = JSON.parse(localStorage.getItem('gas_tracker_entries')||'[]');
+let cars = JSON.parse(localStorage.getItem('gas_tracker_cars')||'[]');
+let selectedCarId = 'all';
 let currentView = 'dashboard';
 let expandedId = null;
 let deleteConfirmId = null;
-let scanStatus = null;
-let previewImgUrl = null;
 let formErrors = {};
 let formData = { date: todayStr() };
 let syncStatus = 'idle';
+let stationSearchTimer = null;
 
-function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
+const CAR_COLORS = ['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6','#94a3b8'];
 
-async function pushToSupabase(entry) {
-  setSyncStatus('syncing');
-  try {
-    await dbFetch('fillups', {
-      method: 'POST',
-      headers: { ...authHeaders(), 'Prefer': 'resolution=merge-duplicates' },
-      body: JSON.stringify({
-        id: entry.id,
-        date: entry.date,
-        gallons: entry.gallons,
-        price_per_gallon: entry.pricePerGallon,
-        total_cost: entry.totalCost,
-        station: entry.station || null,
-        grade: entry.grade || null,
-        payment_method: entry.paymentMethod || null,
-        odometer: entry.odometer || null,
-        miles_driven: entry.milesDriven || null,
-        user_id: currentUser?.user?.id || null,
-      })
-    });
-    setSyncStatus('ok');
-  } catch(e) { console.error('Push failed:', e); setSyncStatus('error'); }
-}
-
-async function deleteFromSupabase(id) {
-  try { await dbFetch(`fillups?id=eq.${id}`, { method: 'DELETE' }); } catch(e) { console.error('Delete failed:', e); }
-}
-
-async function loadFromSupabase() {
-  setSyncStatus('syncing');
-  try {
-    const rows = await dbFetch('fillups?select=*&order=date.asc');
-    entries = rows.map(r => ({
-      id: r.id, date: r.date,
-      gallons: +r.gallons, pricePerGallon: +r.price_per_gallon,
-      totalCost: +r.total_cost, station: r.station, grade: r.grade,
-      paymentMethod: r.payment_method, odometer: r.odometer ? +r.odometer : null,
-      milesDriven: r.miles_driven ? +r.miles_driven : null,
-    }));
-    save();
-    setSyncStatus('ok');
-    updateHeader();
-    if (currentView === 'dashboard') renderDashboard();
-    else if (currentView === 'log') renderLog();
-  } catch(e) { console.error('Load failed:', e); setSyncStatus('error'); }
-}
-
-function setSyncStatus(s) {
-  syncStatus = s;
-  const el = document.getElementById('sync-status');
-  if (!el) return;
-  const map = { syncing: '⟳ Syncing…', ok: '✓ Synced', error: '⚠ Sync failed', idle: '' };
-  const col = { syncing: '#60a5fa', ok: '#34d399', error: '#f87171', idle: '#3a3d52' };
-  el.textContent = map[s] || '';
-  el.style.color = col[s] || '#3a3d52';
-}
+// ── helpers ───────────────────────────────────────────────────────────────────
 function todayStr() { return new Date().toISOString().split('T')[0]; }
-function fmt(n, d=2) { return Number(n).toFixed(d); }
+function fmt(n,d=2) { return Number(n).toFixed(d); }
 function fmtDate(s) { return new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
 function fmtShort(s) { return new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
 function fmtMonth(s) { return new Date(s+'-01T00:00:00').toLocaleDateString('en-US',{month:'long',year:'numeric'}); }
+function saveEntries() { localStorage.setItem('gas_tracker_entries', JSON.stringify(entries)); }
+function saveCars() { localStorage.setItem('gas_tracker_cars', JSON.stringify(cars)); }
+function getCarName(id) { const c=cars.find(c=>c.id===id); return c ? (c.nickname||`${c.year} ${c.make} ${c.model}`) : 'Unknown Car'; }
+function getCarColor(id) { const c=cars.find(c=>c.id===id); return c?.color||'#60a5fa'; }
 
-function sorted() { return [...entries].sort((a,b)=>a.date.localeCompare(b.date)); }
+function filteredEntries() {
+  if (selectedCarId==='all') return [...entries].sort((a,b)=>a.date.localeCompare(b.date));
+  return entries.filter(e=>e.carId===selectedCarId).sort((a,b)=>a.date.localeCompare(b.date));
+}
 
 function withMpg(list) {
-  return list.map((e,i) => {
-    const prev = list[i-1];
-    let mpg = null;
-    if (prev && e.odometer && prev.odometer && e.odometer > prev.odometer) mpg = (e.odometer - prev.odometer) / +e.gallons;
-    else if (e.milesDriven && +e.milesDriven > 0) mpg = +e.milesDriven / +e.gallons;
-    return { ...e, mpg: mpg ? +fmt(mpg,1) : null };
+  return list.map((e,i)=>{
+    const prev=list[i-1];
+    let mpg=null;
+    if(prev&&e.odometer&&prev.odometer&&e.odometer>prev.odometer) mpg=(e.odometer-prev.odometer)/+e.gallons;
+    else if(e.milesDriven&&+e.milesDriven>0) mpg=+e.milesDriven/+e.gallons;
+    return {...e, mpg: mpg?+fmt(mpg,1):null};
   });
 }
 
 function computeStats(list) {
-  if (!list.length) return null;
-  const cd = withMpg(list);
-  const totalSpent = list.reduce((s,e) => s + +e.totalCost, 0);
-  const totalGallons = list.reduce((s,e) => s + +e.gallons, 0);
-  const avgPrice = totalSpent / totalGallons;
-  const mpgEntries = cd.filter(e => e.mpg);
-  const avgMpg = mpgEntries.length ? mpgEntries.reduce((s,e) => s+e.mpg,0)/mpgEntries.length : null;
-  const avgFillup = totalSpent / list.length;
-
-  // cost per mile
-  const cpmEntries = cd.filter(e => e.mpg && e.pricePerGallon);
-  const avgCpm = cpmEntries.length ? cpmEntries.reduce((s,e) => s + (+e.pricePerGallon / e.mpg),0)/cpmEntries.length : null;
-
-  // best/worst price
-  const prices = list.map(e => +e.pricePerGallon);
-  const bestPrice = Math.min(...prices);
-  const worstPrice = Math.max(...prices);
-
-  // longest gap between fill-ups (days)
-  let maxGap = null, maxGapDates = null;
-  for (let i=1; i<list.length; i++) {
-    const d1 = new Date(list[i-1].date+'T00:00:00');
-    const d2 = new Date(list[i].date+'T00:00:00');
-    const gap = Math.round((d2-d1)/(1000*60*60*24));
-    if (maxGap === null || gap > maxGap) { maxGap = gap; maxGapDates = [list[i-1].date, list[i].date]; }
+  if(!list.length) return null;
+  const cd=withMpg(list);
+  const totalSpent=list.reduce((s,e)=>s+ +e.totalCost,0);
+  const totalGallons=list.reduce((s,e)=>s+ +e.gallons,0);
+  const avgPrice=totalSpent/totalGallons;
+  const mpgEntries=cd.filter(e=>e.mpg);
+  const avgMpg=mpgEntries.length?mpgEntries.reduce((s,e)=>s+e.mpg,0)/mpgEntries.length:null;
+  const avgFillup=totalSpent/list.length;
+  const cpmEntries=cd.filter(e=>e.mpg&&e.pricePerGallon);
+  const avgCpm=cpmEntries.length?cpmEntries.reduce((s,e)=>s+(+e.pricePerGallon/e.mpg),0)/cpmEntries.length:null;
+  const prices=list.map(e=>+e.pricePerGallon);
+  const bestPrice=Math.min(...prices), worstPrice=Math.max(...prices);
+  let maxGap=null;
+  for(let i=1;i<list.length;i++){
+    const gap=Math.round((new Date(list[i].date+'T00:00:00')-new Date(list[i-1].date+'T00:00:00'))/(86400000));
+    if(maxGap===null||gap>maxGap) maxGap=gap;
   }
-
-  // most visited station
-  const stationMap = {};
-  list.forEach(e => { if (e.station) stationMap[e.station] = (stationMap[e.station]||0)+1; });
-  const topStation = Object.keys(stationMap).sort((a,b)=>stationMap[b]-stationMap[a])[0] || null;
-
-  // monthly breakdown
-  const monthMap = {};
-  list.forEach(e => {
-    const mo = e.date.slice(0,7);
-    if (!monthMap[mo]) monthMap[mo] = { spent:0, gallons:0, fillUps:0 };
-    monthMap[mo].spent += +e.totalCost;
-    monthMap[mo].gallons += +e.gallons;
-    monthMap[mo].fillUps++;
+  const stationMap={};
+  list.forEach(e=>{if(e.station) stationMap[e.station]=(stationMap[e.station]||0)+1;});
+  const topStation=Object.keys(stationMap).sort((a,b)=>stationMap[b]-stationMap[a])[0]||null;
+  const monthMap={};
+  list.forEach(e=>{
+    const mo=e.date.slice(0,7);
+    if(!monthMap[mo]) monthMap[mo]={spent:0,gallons:0,fillUps:0};
+    monthMap[mo].spent+=+e.totalCost; monthMap[mo].gallons+=+e.gallons; monthMap[mo].fillUps++;
   });
-  const months = Object.keys(monthMap).sort();
-
-  // YTD
-  const thisYear = new Date().getFullYear().toString();
-  const ytd = list.filter(e => e.date.startsWith(thisYear)).reduce((s,e) => s + +e.totalCost, 0);
-
-  // current month
-  const thisMo = todayStr().slice(0,7);
-  const thisMonthSpend = monthMap[thisMo]?.spent || 0;
-  const thisMonthFillups = monthMap[thisMo]?.fillUps || 0;
-
-  // avg days between fill-ups
-  let avgGap = null;
-  if (list.length >= 2) {
-    const d1 = new Date(list[0].date+'T00:00:00');
-    const d2 = new Date(list[list.length-1].date+'T00:00:00');
-    avgGap = Math.round((d2-d1)/(1000*60*60*24) / (list.length-1));
+  const months=Object.keys(monthMap).sort();
+  const thisYear=new Date().getFullYear().toString();
+  const ytd=list.filter(e=>e.date.startsWith(thisYear)).reduce((s,e)=>s+ +e.totalCost,0);
+  const thisMo=todayStr().slice(0,7);
+  const thisMonthSpend=monthMap[thisMo]?.spent||0, thisMonthFillups=monthMap[thisMo]?.fillUps||0;
+  let avgGap=null;
+  if(list.length>=2){
+    const d1=new Date(list[0].date+'T00:00:00'), d2=new Date(list[list.length-1].date+'T00:00:00');
+    avgGap=Math.round((d2-d1)/86400000/(list.length-1));
   }
+  return {totalSpent,totalGallons,avgPrice,avgMpg,avgFillup,avgCpm,bestPrice,worstPrice,maxGap,topStation,months,monthMap,ytd,thisMonthSpend,thisMonthFillups,avgGap,fillUps:list.length,chartData:cd};
+}
 
-  return { totalSpent, totalGallons, avgPrice, avgMpg, avgFillup, avgCpm, bestPrice, worstPrice,
-           maxGap, maxGapDates, topStation, months, monthMap, ytd, thisMonthSpend, thisMonthFillups,
-           avgGap, fillUps: list.length, chartData: cd };
+// ── sync status ───────────────────────────────────────────────────────────────
+function setSyncStatus(s) {
+  syncStatus=s;
+  const el=document.getElementById('sync-status'); if(!el) return;
+  const map={syncing:'⟳ Syncing…',ok:'✓ Synced',error:'⚠ Sync failed',idle:''};
+  const col={syncing:'#60a5fa',ok:'#34d399',error:'#f87171',idle:'#3a3d52'};
+  el.textContent=map[s]||''; el.style.color=col[s]||'#3a3d52';
+}
+
+// ── Supabase ops ──────────────────────────────────────────────────────────────
+async function loadAll() {
+  setSyncStatus('syncing');
+  try {
+    // load cars
+    const carRows = await dbFetch('cars?select=*&order=created_at.asc');
+    cars = carRows.map(r=>({id:r.id,make:r.make,model:r.model,year:r.year,nickname:r.nickname,color:r.color}));
+    saveCars();
+    // load fillups
+    const rows = await dbFetch('fillups?select=*&order=date.asc');
+    entries = rows.map(r=>({
+      id:r.id,date:r.date,gallons:+r.gallons,pricePerGallon:+r.price_per_gallon,
+      totalCost:+r.total_cost,station:r.station,grade:r.grade,paymentMethod:r.payment_method,
+      odometer:r.odometer?+r.odometer:null,milesDriven:r.miles_driven?+r.miles_driven:null,
+      carId:r.car_id||null,
+    }));
+    saveEntries();
+    setSyncStatus('ok');
+    updateHeader();
+    if(currentView==='dashboard') renderDashboard();
+    else if(currentView==='log') renderLog();
+    else if(currentView==='garage') renderGarage();
+  } catch(e) { console.error(e); setSyncStatus('error'); }
+}
+
+async function pushFillup(entry) {
+  setSyncStatus('syncing');
+  try {
+    await dbFetch('fillups', { method:'POST', headers:authHeaders({'Prefer':'resolution=merge-duplicates'}),
+      body: JSON.stringify({id:entry.id,date:entry.date,gallons:entry.gallons,price_per_gallon:entry.pricePerGallon,
+        total_cost:entry.totalCost,station:entry.station||null,grade:entry.grade||null,
+        payment_method:entry.paymentMethod||null,odometer:entry.odometer||null,
+        miles_driven:entry.milesDriven||null,user_id:currentUser?.user?.id||null,car_id:entry.carId||null}) });
+    setSyncStatus('ok');
+  } catch(e) { console.error(e); setSyncStatus('error'); }
+}
+
+async function deleteFillup(id) {
+  try { await dbFetch(`fillups?id=eq.${id}`,{method:'DELETE'}); } catch(e){console.error(e);}
+}
+
+async function pushCar(car) {
+  setSyncStatus('syncing');
+  try {
+    await dbFetch('cars', { method:'POST', headers:authHeaders({'Prefer':'resolution=merge-duplicates'}),
+      body: JSON.stringify({id:car.id,make:car.make,model:car.model,year:car.year||null,
+        nickname:car.nickname||null,color:car.color||'#60a5fa',user_id:currentUser?.user?.id||null}) });
+    setSyncStatus('ok');
+  } catch(e) { console.error(e); setSyncStatus('error'); }
+}
+
+async function deleteCar(id) {
+  try { await dbFetch(`cars?id=eq.${id}`,{method:'DELETE'}); } catch(e){console.error(e);}
 }
 
 // ── routing ───────────────────────────────────────────────────────────────────
 function switchView(v) {
-  currentView = v;
-  ['dashboard','log','add'].forEach(n => {
-    document.getElementById('view-'+n).style.display = n===v?'block':'none';
-    document.querySelector(`[data-view="${n}"]`).classList.toggle('active', n===v);
+  currentView=v;
+  ['dashboard','log','add','garage'].forEach(n=>{
+    document.getElementById('view-'+n).style.display=n===v?'block':'none';
+    document.querySelector(`[data-view="${n}"]`)?.classList.toggle('active',n===v);
   });
-  if (v==='dashboard') renderDashboard();
-  else if (v==='log') renderLog();
-  else renderAdd();
+  if(v==='dashboard') renderDashboard();
+  else if(v==='log') renderLog();
+  else if(v==='add') renderAdd();
+  else if(v==='garage') renderGarage();
   updateHeader();
 }
 
-function confirmSignOut() {
-  if (confirm(`Sign out of ${currentUser?.user?.email}?`)) signOut();
+function updateHeader() {
+  document.getElementById('log-label').textContent=entries.length?`Log (${entries.length})`:'Log';
+  document.getElementById('persist-banner').style.display=entries.length?'block':'none';
 }
 
-function updateHeader() {
-  const countEl = document.getElementById('entry-count');
-  if (countEl) countEl.textContent = entries.length ? `${entries.length} fill-up${entries.length!==1?'s':''}` : '';
-  document.getElementById('log-label').textContent = entries.length ? `Log (${entries.length})` : 'Log';
-  document.getElementById('persist-banner').style.display = entries.length ? 'block' : 'none';
+// ── car filter tabs ───────────────────────────────────────────────────────────
+function carTabsHTML() {
+  if(!cars.length) return '';
+  const tabs=[{id:'all',label:'All Cars',color:'#6b6f8a'},...cars.map(c=>({id:c.id,label:c.nickname||`${c.year||''} ${c.make}`.trim(),color:c.color||'#60a5fa'}))];
+  return `<div class="car-tabs">${tabs.map(t=>`
+    <button class="car-tab ${selectedCarId===t.id?'active':''}" onclick="selectCar('${t.id}')">
+      ${t.id!=='all'?`<span class="car-color-dot" style="background:${t.color}"></span>`:''}${t.label}
+    </button>`).join('')}</div>`;
 }
+
+function selectCar(id) { selectedCarId=id; if(currentView==='dashboard') renderDashboard(); else renderLog(); }
 
 // ── dashboard ─────────────────────────────────────────────────────────────────
 function renderDashboard() {
-  const el = document.getElementById('view-dashboard');
-  const s = computeStats(sorted());
+  const el=document.getElementById('view-dashboard');
+  const list=filteredEntries();
+  const s=computeStats(list);
 
-  if (!s) {
-    el.innerHTML = `<div class="empty"><div class="empty-icon">⛽</div><p style="font-size:15px;font-weight:600;color:#565a72;margin-bottom:8px">Nothing tracked yet</p><p style="font-size:13px;margin-bottom:24px">Add your first fill-up to start.</p><button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="switchView('add')">+ Log a Fill-up</button></div>`;
+  if(!s) {
+    el.innerHTML=`${carTabsHTML()}<div class="empty"><div class="empty-icon">⛽</div><p style="font-size:15px;font-weight:600;color:#565a72;margin-bottom:8px">Nothing tracked yet</p><p style="font-size:13px;margin-bottom:24px">${cars.length?'Add your first fill-up.':'Start by adding a car in the Garage tab.'}</p><button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="switchView('${cars.length?'add':'garage'}')">${cars.length?'+ Log a Fill-up':'+ Add a Car'}</button></div>`;
     return;
   }
 
-  // ── top stats ──
-  el.innerHTML = `
+  const chartOpts={responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0c0e18',borderColor:'#2a2d3a',borderWidth:1,titleColor:'#8b8fa8',bodyColor:'#e0e2f0'}},scales:{x:{grid:{color:'#1a1d2b'},ticks:{color:'#565a72',font:{size:10}}},y:{grid:{color:'#1a1d2b'},ticks:{color:'#565a72',font:{size:10}}}}};
+
+  el.innerHTML=`
+    ${carTabsHTML()}
     <div class="stat-row">
       <div class="stat-card"><div class="stat-label">Total Spent</div><div class="stat-value" style="color:#34d399">$${fmt(s.totalSpent)}</div><div class="stat-sub">all time</div></div>
       <div class="stat-card"><div class="stat-label">This Month</div><div class="stat-value" style="color:#60a5fa">$${fmt(s.thisMonthSpend)}</div><div class="stat-sub">${s.thisMonthFillups} fill-up${s.thisMonthFillups!==1?'s':''}</div></div>
     </div>
     <div class="stat-row">
-      <div class="stat-card"><div class="stat-label">YTD Spend</div><div class="stat-value">$${fmt(s.ytd)}</div></div>
+      <div class="stat-card"><div class="stat-label">YTD</div><div class="stat-value">$${fmt(s.ytd)}</div></div>
       <div class="stat-card"><div class="stat-label">Avg Fill-up</div><div class="stat-value">$${fmt(s.avgFillup)}</div></div>
       <div class="stat-card"><div class="stat-label">Avg $/gal</div><div class="stat-value">$${fmt(s.avgPrice)}</div></div>
     </div>
-    <div class="stat-row">
-      ${s.avgMpg ? `<div class="stat-card"><div class="stat-label">Avg MPG</div><div class="stat-value">${fmt(s.avgMpg,1)}</div></div>` : ''}
-      ${s.avgCpm ? `<div class="stat-card"><div class="stat-label">Cost/Mile</div><div class="stat-value">$${fmt(s.avgCpm,3)}</div></div>` : ''}
+    ${s.avgMpg||s.avgCpm?`<div class="stat-row">
+      ${s.avgMpg?`<div class="stat-card"><div class="stat-label">Avg MPG</div><div class="stat-value">${fmt(s.avgMpg,1)}</div></div>`:''}
+      ${s.avgCpm?`<div class="stat-card"><div class="stat-label">Cost/Mile</div><div class="stat-value">$${fmt(s.avgCpm,3)}</div></div>`:''}
       <div class="stat-card"><div class="stat-label">Gallons</div><div class="stat-value">${fmt(s.totalGallons,1)}</div></div>
-    </div>
-
-    ${entries.length < 2 ? `<div class="card" style="text-align:center;color:#3a3d52;font-size:13px">Add 1 more fill-up to unlock charts.</div>` : `
-
-    <!-- price chart -->
+    </div>`:''}
+    ${list.length<2?`<div class="card" style="text-align:center;color:#3a3d52;font-size:13px">Add 1 more fill-up to unlock charts.</div>`:`
     <div class="card"><div class="card-title">Price per Gallon</div><canvas id="chart-price"></canvas></div>
-
-    <!-- spend chart -->
     <div class="card"><div class="card-title">Spend per Fill-up</div><canvas id="chart-spend"></canvas></div>
-
-    <!-- monthly spend -->
-    <div class="card">
-      <div class="card-title">Monthly Spend</div>
-      <canvas id="chart-monthly"></canvas>
+    <div class="card"><div class="card-title">Monthly Spend</div><canvas id="chart-monthly"></canvas></div>
+    ${s.chartData.some(d=>d.mpg)?`<div class="card"><div class="card-title">Fuel Economy (MPG)</div><canvas id="chart-mpg"></canvas></div>`:`<div class="card" style="text-align:center;color:#3a3d52;font-size:13px;padding:20px">Add odometer or miles driven to enable MPG chart.</div>`}
+    <div class="card"><div class="card-title">Insights</div>
+      <div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Best price paid</span><span style="font-family:'DM Mono',monospace;font-size:13px;color:#34d399">$${fmt(s.bestPrice)}/gal</span></div>
+      <div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Worst price paid</span><span style="font-family:'DM Mono',monospace;font-size:13px;color:#f87171">$${fmt(s.worstPrice)}/gal</span></div>
+      <div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Price spread</span><span style="font-family:'DM Mono',monospace;font-size:13px;color:#c7cae0">$${fmt(s.worstPrice-s.bestPrice)}/gal</span></div>
+      ${s.avgGap?`<div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Avg days between fill-ups</span><span style="font-size:13px;color:#c7cae0">${s.avgGap} days</span></div>`:''}
+      ${s.maxGap?`<div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Longest stretch</span><span style="font-size:13px;color:#c7cae0">${s.maxGap} days</span></div>`:''}
+      ${s.topStation?`<div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Most visited station</span><span style="font-size:13px;color:#c7cae0">${s.topStation}</span></div>`:''}
     </div>
-
-    ${s.chartData.some(d=>d.mpg) ? `<div class="card"><div class="card-title">Fuel Economy (MPG)</div><canvas id="chart-mpg"></canvas></div>` : `<div class="card" style="text-align:center;color:#3a3d52;font-size:13px;padding:20px">No MPG data — add odometer or miles driven to enable.</div>`}
-
-    <!-- insights card -->
-    <div class="card">
-      <div class="card-title">Insights</div>
-      <div class="insight-row">
-        <span style="font-size:13px;color:#8b8fa8">Best price paid</span>
-        <span style="font-family:'DM Mono',monospace;font-size:13px;color:#34d399">$${fmt(s.bestPrice)}/gal</span>
-      </div>
-      <div class="insight-row">
-        <span style="font-size:13px;color:#8b8fa8">Worst price paid</span>
-        <span style="font-family:'DM Mono',monospace;font-size:13px;color:#f87171">$${fmt(s.worstPrice)}/gal</span>
-      </div>
-      <div class="insight-row">
-        <span style="font-size:13px;color:#8b8fa8">Price spread</span>
-        <span style="font-family:'DM Mono',monospace;font-size:13px;color:#c7cae0">$${fmt(s.worstPrice-s.bestPrice)}/gal</span>
-      </div>
-      ${s.avgGap ? `<div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Avg days between fill-ups</span><span style="font-size:13px;color:#c7cae0">${s.avgGap} days</span></div>` : ''}
-      ${s.maxGap ? `<div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Longest stretch</span><span style="font-size:13px;color:#c7cae0">${s.maxGap} days</span></div>` : ''}
-      ${s.topStation ? `<div class="insight-row"><span style="font-size:13px;color:#8b8fa8">Most visited station</span><span style="font-size:13px;color:#c7cae0">${s.topStation}</span></div>` : ''}
-    </div>
-
-    <!-- monthly breakdown table -->
-    <div class="card">
-      <div class="card-title">Monthly Breakdown</div>
-      ${[...s.months].reverse().map(mo => `
+    <div class="card"><div class="card-title">Monthly Breakdown</div>
+      ${[...s.months].reverse().map(mo=>`
         <div class="month-row">
-          <div>
-            <div style="font-size:13px;color:#c7cae0;font-weight:500">${fmtMonth(mo)}</div>
-            <div style="font-size:11px;color:#565a72;margin-top:2px">${s.monthMap[mo].fillUps} fill-up${s.monthMap[mo].fillUps!==1?'s':''} · ${fmt(s.monthMap[mo].gallons,1)} gal</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:#34d399">$${fmt(s.monthMap[mo].spent)}</div>
-            <div style="font-size:11px;color:#565a72">$${fmt(s.monthMap[mo].spent/s.monthMap[mo].gallons)}/gal avg</div>
-          </div>
+          <div><div style="font-size:13px;color:#c7cae0;font-weight:500">${fmtMonth(mo)}</div><div style="font-size:11px;color:#565a72;margin-top:2px">${s.monthMap[mo].fillUps} fill-up${s.monthMap[mo].fillUps!==1?'s':''} · ${fmt(s.monthMap[mo].gallons,1)} gal</div></div>
+          <div style="text-align:right"><div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:#34d399">$${fmt(s.monthMap[mo].spent)}</div><div style="font-size:11px;color:#565a72">$${fmt(s.monthMap[mo].spent/s.monthMap[mo].gallons)}/gal avg</div></div>
         </div>`).join('')}
-    </div>
-    `}
+    </div>`}
   `;
 
-  if (entries.length >= 2) {
-    const cd = s.chartData;
-    const labels = cd.map(e => fmtShort(e.date));
-    const chartOpts = {
-      responsive: true,
-      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0c0e18', borderColor: '#2a2d3a', borderWidth: 1, titleColor: '#8b8fa8', bodyColor: '#e0e2f0' } },
-      scales: { x: { grid: { color: '#1a1d2b' }, ticks: { color: '#565a72', font: { size: 10 } } }, y: { grid: { color: '#1a1d2b' }, ticks: { color: '#565a72', font: { size: 10 } } } }
-    };
-
-    new Chart(document.getElementById('chart-price'), { type:'line', data:{ labels, datasets:[{ data:cd.map(e=>e.pricePerGallon), borderColor:'#60a5fa', backgroundColor:'rgba(96,165,250,0.08)', pointBackgroundColor:'#60a5fa', tension:0.3, pointRadius:4 }]}, options:{ ...chartOpts, scales:{ ...chartOpts.scales, y:{ ...chartOpts.scales.y, ticks:{ ...chartOpts.scales.y.ticks, callback:v=>`$${v}` }}}} });
-
-    new Chart(document.getElementById('chart-spend'), { type:'bar', data:{ labels, datasets:[{ data:cd.map(e=>e.totalCost), backgroundColor:'#818cf8', borderRadius:4 }]}, options:{ ...chartOpts, scales:{ ...chartOpts.scales, y:{ ...chartOpts.scales.y, ticks:{ ...chartOpts.scales.y.ticks, callback:v=>`$${v}` }}}} });
-
-    // monthly chart
-    const moLabels = s.months.map(m => new Date(m+'-01T00:00:00').toLocaleDateString('en-US',{month:'short',year:'2-digit'}));
-    const moData = s.months.map(m => +fmt(s.monthMap[m].spent));
-    new Chart(document.getElementById('chart-monthly'), { type:'bar', data:{ labels:moLabels, datasets:[{ data:moData, backgroundColor:'#34d399', borderRadius:4 }]}, options:{ ...chartOpts, scales:{ ...chartOpts.scales, y:{ ...chartOpts.scales.y, ticks:{ ...chartOpts.scales.y.ticks, callback:v=>`$${v}` }}}} });
-
-    const mpgData = cd.filter(d=>d.mpg);
-    if (mpgData.length) new Chart(document.getElementById('chart-mpg'), { type:'line', data:{ labels:mpgData.map(e=>fmtShort(e.date)), datasets:[{ data:mpgData.map(e=>e.mpg), borderColor:'#34d399', backgroundColor:'rgba(52,211,153,0.08)', pointBackgroundColor:'#34d399', tension:0.3, pointRadius:4 }]}, options:chartOpts });
+  if(list.length>=2){
+    const cd=s.chartData, labels=cd.map(e=>fmtShort(e.date));
+    const yDollar={...chartOpts.scales.y,ticks:{...chartOpts.scales.y.ticks,callback:v=>`$${v}`}};
+    new Chart(document.getElementById('chart-price'),{type:'line',data:{labels,datasets:[{data:cd.map(e=>e.pricePerGallon),borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,0.08)',pointBackgroundColor:'#60a5fa',tension:0.3,pointRadius:4}]},options:{...chartOpts,scales:{...chartOpts.scales,y:yDollar}}});
+    new Chart(document.getElementById('chart-spend'),{type:'bar',data:{labels,datasets:[{data:cd.map(e=>e.totalCost),backgroundColor:'#818cf8',borderRadius:4}]},options:{...chartOpts,scales:{...chartOpts.scales,y:yDollar}}});
+    const moLabels=s.months.map(m=>new Date(m+'-01T00:00:00').toLocaleDateString('en-US',{month:'short',year:'2-digit'}));
+    new Chart(document.getElementById('chart-monthly'),{type:'bar',data:{labels:moLabels,datasets:[{data:s.months.map(m=>+fmt(s.monthMap[m].spent)),backgroundColor:'#34d399',borderRadius:4}]},options:{...chartOpts,scales:{...chartOpts.scales,y:yDollar}}});
+    const mpgData=cd.filter(d=>d.mpg);
+    if(mpgData.length) new Chart(document.getElementById('chart-mpg'),{type:'line',data:{labels:mpgData.map(e=>fmtShort(e.date)),datasets:[{data:mpgData.map(e=>e.mpg),borderColor:'#34d399',backgroundColor:'rgba(52,211,153,0.08)',pointBackgroundColor:'#34d399',tension:0.3,pointRadius:4}]},options:chartOpts});
   }
 }
 
 // ── log ───────────────────────────────────────────────────────────────────────
 function renderLog() {
-  const el = document.getElementById('view-log');
-  const list = [...sorted()].reverse();
-  const cd = withMpg(sorted());
-
-  if (!list.length) {
-    el.innerHTML = `<div class="empty"><div class="empty-icon">📋</div><p style="font-size:14px;margin-bottom:20px">No fill-ups yet.</p><button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="switchView('add')">+ Log a Fill-up</button></div>`;
+  const el=document.getElementById('view-log');
+  const list=[...filteredEntries()].reverse();
+  const cd=withMpg(filteredEntries());
+  if(!list.length){
+    el.innerHTML=`${carTabsHTML()}<div class="empty"><div class="empty-icon">📋</div><p style="font-size:14px;margin-bottom:20px">No fill-ups yet.</p><button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="switchView('add')">+ Log a Fill-up</button></div>`;
     return;
   }
-
-  el.innerHTML = `
+  el.innerHTML=`
+    ${carTabsHTML()}
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
       <p style="color:#3a3d52;font-size:12px">${list.length} fill-up${list.length!==1?'s':''} · tap to expand</p>
-      <button class="green-btn" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="green-btn" onclick="exportCSV()">⬇ CSV</button>
     </div>
-    ${list.map(e => {
-      const cdEntry = cd.find(d=>d.id===e.id);
-      const isOpen = expandedId===e.id;
-      const isDel = deleteConfirmId===e.id;
-      const details = [
-        ['Date', fmtDate(e.date)], ['Gallons', `${e.gallons} gal`],
-        ['Price/gal', `$${fmt(e.pricePerGallon)}`], ['Total', `$${fmt(e.totalCost)}`],
-        e.station && ['Station', e.station], e.grade && ['Grade', e.grade],
-        e.paymentMethod && ['Payment', e.paymentMethod],
-        e.odometer && ['Odometer', `${Number(e.odometer).toLocaleString()} mi`],
-        e.milesDriven && ['Miles driven', `${e.milesDriven} mi`],
-        cdEntry?.mpg && ['MPG', `${fmt(cdEntry.mpg,1)} mpg`],
-        cdEntry?.mpg && e.pricePerGallon && ['Cost/mile', `$${fmt(+e.pricePerGallon/cdEntry.mpg,3)}`],
+    ${list.map(e=>{
+      const cdEntry=cd.find(d=>d.id===e.id);
+      const isOpen=expandedId===e.id, isDel=deleteConfirmId===e.id;
+      const car=cars.find(c=>c.id===e.carId);
+      const details=[
+        ['Date',fmtDate(e.date)],['Gallons',`${e.gallons} gal`],
+        ['Price/gal',`$${fmt(e.pricePerGallon)}`],['Total',`$${fmt(e.totalCost)}`],
+        e.station&&['Station',e.station], e.grade&&['Grade',e.grade],
+        e.paymentMethod&&['Payment',e.paymentMethod],
+        e.odometer&&['Odometer',`${Number(e.odometer).toLocaleString()} mi`],
+        e.milesDriven&&['Miles driven',`${e.milesDriven} mi`],
+        cdEntry?.mpg&&['MPG',`${fmt(cdEntry.mpg,1)} mpg`],
+        cdEntry?.mpg&&e.pricePerGallon&&['Cost/mile',`$${fmt(+e.pricePerGallon/cdEntry.mpg,3)}`],
+        car&&['Car',car.nickname||`${car.year||''} ${car.make} ${car.model}`.trim()],
       ].filter(Boolean);
-      return `
-        <div class="entry-card ${isOpen?'open':''}" id="entry-${e.id}">
-          <div class="entry-row" onclick="toggleEntry(${e.id})">
-            <div>
-              <div style="font-size:13px;font-weight:600;color:#c7cae0;margin-bottom:3px">${fmtShort(e.date)}</div>
-              <div style="font-size:11px;color:#565a72">${e.gallons} gal${e.station?' · '+e.station:''}${e.grade?' · '+e.grade:''}</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="text-align:right">
-                <div style="font-size:15px;font-weight:700;color:#34d399;font-family:'DM Mono',monospace">$${fmt(e.totalCost)}</div>
-                <div style="font-size:11px;color:#565a72">$${fmt(e.pricePerGallon)}/gal</div>
-              </div>
-              <span style="color:#3a3d52;font-size:12px">${isOpen?'▲':'▼'}</span>
-            </div>
+      return `<div class="entry-card ${isOpen?'open':''}" id="entry-${e.id}">
+        <div class="entry-row" onclick="toggleEntry(${e.id})">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#c7cae0;margin-bottom:3px">${fmtShort(e.date)}${car?`<span style="margin-left:8px;font-size:10px;background:${car.color||'#60a5fa'}22;color:${car.color||'#60a5fa'};padding:2px 7px;border-radius:10px">${car.nickname||car.make}</span>`:''}</div>
+            <div style="font-size:11px;color:#565a72">${e.gallons} gal${e.station?' · '+e.station:''}${e.grade?' · '+e.grade:''}</div>
           </div>
-          <div class="entry-detail ${isOpen?'open':''}">
-            <div class="detail-grid">${details.map(([k,v])=>`<div><div class="detail-key">${k}</div><div class="detail-val">${v}</div></div>`).join('')}</div>
-            ${isDel
-              ? `<div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:#f87171;flex:1">Delete this fill-up?</span><button class="delete-btn" onclick="confirmDelete(${e.id})">Delete</button><button class="ghost-btn" onclick="deleteConfirmId=null;renderLog()">Cancel</button></div>`
-              : `<button class="ghost-btn" onclick="startDelete(${e.id})">🗑 Delete</button>`}
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="text-align:right">
+              <div style="font-size:15px;font-weight:700;color:#34d399;font-family:'DM Mono',monospace">$${fmt(e.totalCost)}</div>
+              <div style="font-size:11px;color:#565a72">$${fmt(e.pricePerGallon)}/gal</div>
+            </div>
+            <span style="color:#3a3d52;font-size:12px">${isOpen?'▲':'▼'}</span>
           </div>
-        </div>`;
-    }).join('')}
-  `;
+        </div>
+        <div class="entry-detail ${isOpen?'open':''}">
+          <div class="detail-grid">${details.map(([k,v])=>`<div><div class="detail-key">${k}</div><div class="detail-val">${v}</div></div>`).join('')}</div>
+          ${isDel?`<div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:#f87171;flex:1">Delete this fill-up?</span><button class="delete-btn" onclick="confirmDelete(${e.id})">Delete</button><button class="ghost-btn" onclick="deleteConfirmId=null;renderLog()">Cancel</button></div>`:`<button class="ghost-btn" onclick="startDelete(${e.id})">🗑 Delete</button>`}
+        </div>
+      </div>`;
+    }).join('')}`;
 }
 
-function toggleEntry(id) { expandedId = expandedId===id?null:id; deleteConfirmId=null; renderLog(); }
-function startDelete(id) { deleteConfirmId=id; renderLog(); }
-function confirmDelete(id) { entries=entries.filter(e=>e.id!==id); save(); deleteFromSupabase(id); expandedId=null; deleteConfirmId=null; renderLog(); updateHeader(); }
+function toggleEntry(id){expandedId=expandedId===id?null:id;deleteConfirmId=null;renderLog();}
+function startDelete(id){deleteConfirmId=id;renderLog();}
+function confirmDelete(id){entries=entries.filter(e=>e.id!==id);saveEntries();deleteFillup(id);expandedId=null;deleteConfirmId=null;renderLog();updateHeader();}
 
-// ── CSV export ────────────────────────────────────────────────────────────────
-function exportCSV() {
-  const cd = withMpg(sorted());
-  const headers = ['Date','Gallons','Price/Gal','Total Cost','Station','Grade','Payment','Odometer','Miles Driven','MPG','Cost/Mile'];
-  const rows = cd.map(e => [
-    e.date, e.gallons, e.pricePerGallon, e.totalCost,
-    e.station||'', e.grade||'', e.paymentMethod||'',
-    e.odometer||'', e.milesDriven||'',
-    e.mpg||'',
-    (e.mpg && e.pricePerGallon) ? fmt(+e.pricePerGallon/e.mpg,4) : ''
-  ]);
-  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `gas-tracker-${todayStr()}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+function exportCSV(){
+  const cd=withMpg(filteredEntries());
+  const headers=['Date','Car','Gallons','Price/Gal','Total Cost','Station','Grade','Payment','Odometer','Miles Driven','MPG','Cost/Mile'];
+  const rows=cd.map(e=>[e.date,getCarName(e.carId),e.gallons,e.pricePerGallon,e.totalCost,e.station||'',e.grade||'',e.paymentMethod||'',e.odometer||'',e.milesDriven||'',e.mpg||'',(e.mpg&&e.pricePerGallon)?fmt(+e.pricePerGallon/e.mpg,4):'']);
+  const csv=[headers,...rows].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`gas-tracker-${todayStr()}.csv`; a.click();
+}
+
+// ── garage ────────────────────────────────────────────────────────────────────
+function renderGarage() {
+  const el=document.getElementById('view-garage');
+  el.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <p style="font-size:12px;color:#3a3d52">${cars.length} car${cars.length!==1?'s':''}</p>
+      <button class="green-btn" onclick="openCarModal()">+ Add Car</button>
+    </div>
+    ${!cars.length?`<div class="empty"><div class="empty-icon">🚗</div><p style="font-size:14px;margin-bottom:20px">No cars yet. Add one to start tracking per vehicle.</p></div>`:''}
+    ${cars.map(c=>{
+      const carEntries=entries.filter(e=>e.carId===c.id);
+      const spent=carEntries.reduce((s,e)=>s+ +e.totalCost,0);
+      return `<div class="garage-card">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;border-radius:12px;background:${c.color||'#60a5fa'}22;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🚗</div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:#c7cae0">${c.nickname||`${c.year||''} ${c.make} ${c.model}`.trim()}</div>
+            <div style="font-size:11px;color:#565a72;margin-top:2px">${c.year?c.year+' · ':''}${c.make} ${c.model}</div>
+            <div style="font-size:11px;color:#3a3d52;margin-top:2px">${carEntries.length} fill-up${carEntries.length!==1?'s':''} · $${fmt(spent)} total</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="ghost-btn" onclick="openCarModal('${c.id}')">Edit</button>
+          <button class="ghost-btn" style="color:#f87171;border-color:#7f1d1d" onclick="deleteCarPrompt('${c.id}')">🗑</button>
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
+function deleteCarPrompt(id){
+  const car=cars.find(c=>c.id===id);
+  const count=entries.filter(e=>e.carId===id).length;
+  if(confirm(`Delete "${car?.nickname||car?.make}"? ${count} fill-up${count!==1?'s':''} will be unassigned.`)){
+    cars=cars.filter(c=>c.id!==id); saveCars(); deleteCar(id); renderGarage();
+  }
+}
+
+// ── car modal ─────────────────────────────────────────────────────────────────
+function openCarModal(editId=null) {
+  const car = editId ? cars.find(c=>c.id===editId) : null;
+  const selectedColor = car?.color || CAR_COLORS[0];
+  document.getElementById('modal-root').innerHTML=`
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal">
+        <div class="modal-title">${car?'Edit Car':'Add a Car'}</div>
+        <div class="field"><div class="field-label">Nickname <span style="color:#3a3d52;font-weight:400;text-transform:none;letter-spacing:0;font-size:10px">— optional, e.g. "Daily Driver"</span></div><input class="field-input" id="car-nickname" value="${car?.nickname||''}" placeholder="e.g. Daily Driver"/></div>
+        <div class="field"><div class="field-label">Make <span style="color:#f87171">*</span></div><input class="field-input" id="car-make" value="${car?.make||''}" placeholder="e.g. Toyota"/></div>
+        <div class="field"><div class="field-label">Model <span style="color:#f87171">*</span></div><input class="field-input" id="car-model" value="${car?.model||''}" placeholder="e.g. Camry"/></div>
+        <div class="field"><div class="field-label">Year</div><input class="field-input" id="car-year" type="number" value="${car?.year||''}" placeholder="e.g. 2022" min="1980" max="2030"/></div>
+        <div class="field">
+          <div class="field-label">Color</div>
+          <div class="color-picker" id="color-picker">
+            ${CAR_COLORS.map(c=>`<div class="color-swatch ${c===selectedColor?'selected':''}" style="background:${c}" data-color="${c}" onclick="selectColor('${c}')"></div>`).join('')}
+          </div>
+        </div>
+        <button class="primary-btn" onclick="saveCar('${editId||''}')">Save Car</button>
+        <button class="ghost-btn" style="width:100%;text-align:center" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>`;
+}
+
+function selectColor(color) {
+  document.querySelectorAll('.color-swatch').forEach(s=>s.classList.toggle('selected',s.dataset.color===color));
+}
+
+function closeModal() { document.getElementById('modal-root').innerHTML=''; }
+
+async function saveCar(editId) {
+  const make=document.getElementById('car-make').value.trim();
+  const model=document.getElementById('car-model').value.trim();
+  if(!make||!model){ alert('Make and model are required.'); return; }
+  const color=document.querySelector('.color-swatch.selected')?.dataset.color||CAR_COLORS[0];
+  const car={
+    id: editId||Date.now().toString(),
+    make, model,
+    year: document.getElementById('car-year').value||null,
+    nickname: document.getElementById('car-nickname').value.trim()||null,
+    color,
+  };
+  if(editId) cars=cars.map(c=>c.id===editId?car:c);
+  else cars.push(car);
+  saveCars(); await pushCar(car); closeModal(); renderGarage();
 }
 
 // ── add form ──────────────────────────────────────────────────────────────────
 function renderAdd() {
-  const el = document.getElementById('view-add');
-  const total = formData.gallons && formData.pricePerGallon && +formData.gallons>0 && +formData.pricePerGallon>0
-    ? `$${fmt(+formData.gallons * +formData.pricePerGallon)}` : '—';
-  const totalColor = total==='—'?'#3a3d52':'#34d399';
+  const el=document.getElementById('view-add');
+  const total=formData.gallons&&formData.pricePerGallon&&+formData.gallons>0&&+formData.pricePerGallon>0?`$${fmt(+formData.gallons * +formData.pricePerGallon)}`:'—';
 
-  el.innerHTML = `
-    <input type="file" id="cam-input" accept="image/*" capture="environment" style="display:none" onchange="handleFile(this)" />
-    <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFile(this)" />
+  el.innerHTML=`
+    <input type="file" id="cam-input" accept="image/*" capture="environment" style="display:none" onchange="handleFile(this)"/>
+    <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFile(this)"/>
     <div style="border-top:1px solid #1a1d2b;padding-top:14px;margin-bottom:4px">
       <p style="color:#3a3d52;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px">Fill-up Details</p>
     </div>
     ${field('date','Date',true,'date')}
+    ${carSelectField()}
     ${field('gallons','Gallons',true,'number','e.g. 12.4')}
     ${field('pricePerGallon','Price / Gallon ($)',true,'number','e.g. 4.39')}
-    ${field('station','Station',false,'text','Chevron, Costco, Shell…')}
+    ${stationField()}
     ${selectField('grade','Fuel Grade',['Regular','Midgrade','Premium','Diesel'])}
     ${selectField('paymentMethod','Payment',['Credit','Cash','Debit','Fleet Card'])}
     <div class="mpg-box">
@@ -626,91 +627,148 @@ function renderAdd() {
     </div>
     <div class="total-preview">
       <span style="font-size:11px;color:#565a72;text-transform:uppercase;letter-spacing:0.06em">Total</span>
-      <span class="preview-amt" style="color:${totalColor}">${total}</span>
+      <span class="preview-amt" style="color:${total==='—'?'#3a3d52':'#34d399'}">${total}</span>
     </div>
     <button class="primary-btn" onclick="handleSave()">Save Fill-up</button>
   `;
 
-  el.querySelectorAll('[data-field]').forEach(input => {
-    input.addEventListener('input', e => {
-      formData[e.target.dataset.field] = e.target.value;
-      formErrors[e.target.dataset.field] = null;
-      if (['gallons','pricePerGallon'].includes(e.target.dataset.field)) {
-        const t = formData.gallons && formData.pricePerGallon && +formData.gallons>0 && +formData.pricePerGallon>0 ? `$${fmt(+formData.gallons * +formData.pricePerGallon)}` : '—';
-        const amtEl = el.querySelector('.preview-amt');
-        if (amtEl) { amtEl.textContent=t; amtEl.style.color=t==='—'?'#3a3d52':'#34d399'; }
+  // attach input listeners
+  el.querySelectorAll('[data-field]').forEach(input=>{
+    input.addEventListener('input',e=>{
+      formData[e.target.dataset.field]=e.target.value;
+      formErrors[e.target.dataset.field]=null;
+      if(['gallons','pricePerGallon'].includes(e.target.dataset.field)){
+        const t=formData.gallons&&formData.pricePerGallon&&+formData.gallons>0&&+formData.pricePerGallon>0?`$${fmt(+formData.gallons * +formData.pricePerGallon)}`:'—';
+        const a=el.querySelector('.preview-amt'); if(a){a.textContent=t;a.style.color=t==='—'?'#3a3d52':'#34d399';}
       }
+      // station search
+      if(e.target.dataset.field==='station') triggerStationSearch(e.target.value);
     });
-    input.addEventListener('change', e => { formData[e.target.dataset.field]=e.target.value; });
+    input.addEventListener('change',e=>{ formData[e.target.dataset.field]=e.target.value; });
   });
 }
 
-function field(key, label, required, type, placeholder='', hint='') {
-  const val = formData[key]||'', err = formErrors[key]||'';
+function carSelectField() {
+  if(!cars.length) return `<div class="field"><div class="field-label" style="color:#3a3d52">Car — <a href="#" onclick="switchView('garage');return false" style="color:#60a5fa;text-decoration:none;font-size:10px">add one in Garage</a></div></div>`;
+  const val=formData.carId||'';
+  return `<div class="field"><div class="field-label">Car</div><select class="field-input" data-field="carId"><option value="">No car selected</option>${cars.map(c=>`<option value="${c.id}" ${val===c.id?'selected':''}>${c.nickname||`${c.year||''} ${c.make} ${c.model}`.trim()}</option>`).join('')}</select></div>`;
+}
+
+function stationField() {
+  const val=formData.station||'', err=formErrors.station||'';
+  return `<div class="field" style="position:relative">
+    <div class="field-label">Station <span style="color:#3a3d52;text-transform:none;letter-spacing:0;font-size:10px">— type to search</span></div>
+    <input class="field-input ${err?'error':''}" type="text" data-field="station" value="${val}" placeholder="e.g. Costco Lakewood" autocomplete="off" id="station-input"/>
+    <div id="station-suggestions" class="autocomplete-list" style="display:none"></div>
+    ${err?`<div class="field-error">${err}</div>`:''}
+  </div>`;
+}
+
+function field(key,label,required,type,placeholder='',hint=''){
+  const val=formData[key]||'',err=formErrors[key]||'';
   return `<div class="field"><div class="field-label"><span>${label}${required?' <span style="color:#f87171">*</span>':''}</span>${hint?`<span class="field-hint">${hint}</span>`:''}</div><input class="field-input ${err?'error':''}" type="${type}" data-field="${key}" value="${val}" placeholder="${placeholder}" ${type==='number'?'step="0.001" min="0"':''}/>${err?`<div class="field-error">${err}</div>`:''}</div>`;
 }
 
-function selectField(key, label, options) {
-  const val = formData[key]||'';
+function selectField(key,label,options){
+  const val=formData[key]||'';
   return `<div class="field"><div class="field-label"><span>${label}</span></div><select class="field-input" data-field="${key}"><option value="">Select…</option>${options.map(o=>`<option ${val===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
 }
 
-function handleSave() {
-  formErrors = {};
-  if (!formData.date) formErrors.date='Required';
-  if (!formData.gallons||+formData.gallons<=0) formErrors.gallons='Must be > 0';
-  if (!formData.pricePerGallon||+formData.pricePerGallon<=0) formErrors.pricePerGallon='Must be > 0';
-  if (formData.odometer&&+formData.odometer<=0) formErrors.odometer='Must be > 0';
-  if (formData.milesDriven&&+formData.milesDriven<=0) formErrors.milesDriven='Must be > 0';
-  if (formData.odometer&&entries.length) {
-    const lastOdo = [...sorted()].reverse().find(e=>e.odometer)?.odometer;
-    if (lastOdo&&+formData.odometer<lastOdo) formErrors.odometer=`Lower than last reading (${Number(lastOdo).toLocaleString()} mi)`;
+// ── station autocomplete (OpenStreetMap Nominatim) ────────────────────────────
+function triggerStationSearch(query) {
+  clearTimeout(stationSearchTimer);
+  const box=document.getElementById('station-suggestions');
+  if(!box) return;
+  if(!query||query.length<3){box.style.display='none';return;}
+  stationSearchTimer=setTimeout(()=>searchStations(query),400);
+}
+
+async function searchStations(query) {
+  const box=document.getElementById('station-suggestions');
+  if(!box) return;
+  box.style.display='block';
+  box.innerHTML=`<div class="autocomplete-item" style="color:#565a72">Searching…</div>`;
+  try {
+    const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query+' gas station fuel')}&format=json&limit=5&addressdetails=1&accept-language=en`;
+    const res=await fetch(url,{headers:{'User-Agent':'GasTrackerPWA/1.0'}});
+    const data=await res.json();
+    if(!data.length){
+      // also try without "gas station"
+      const url2=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=5&addressdetails=1&accept-language=en`;
+      const res2=await fetch(url2,{headers:{'User-Agent':'GasTrackerPWA/1.0'}});
+      const data2=await res2.json();
+      renderSuggestions(data2, query);
+    } else {
+      renderSuggestions(data, query);
+    }
+  } catch(e) {
+    box.innerHTML=`<div class="autocomplete-item" style="color:#565a72">Search unavailable — type manually</div>`;
+    setTimeout(()=>{ if(box) box.style.display='none'; },2000);
   }
-  if (Object.keys(formErrors).length) { renderAdd(); return; }
-  const totalCost = formData.totalCost&&+formData.totalCost>0 ? +formData.totalCost : +(+formData.gallons * +formData.pricePerGallon).toFixed(2);
-  entries.push({ ...formData, id:Date.now(), totalCost, gallons:+formData.gallons, pricePerGallon:+formData.pricePerGallon, odometer:formData.odometer?+formData.odometer:null, milesDriven:formData.milesDriven?+formData.milesDriven:null });
-  save();
-  pushToSupabase(entries[entries.length-1]);
-  formData={date:todayStr()}; formErrors={}; previewImgUrl=null; scanStatus=null; window._scanMsg=''; window._scanning=false;
+}
+
+function renderSuggestions(data, query) {
+  const box=document.getElementById('station-suggestions');
+  if(!box) return;
+  if(!data.length){
+    box.innerHTML=`<div class="autocomplete-item" style="color:#565a72">No results — try "Costco Lakewood CA"</div>`;
+    return;
+  }
+  box.innerHTML=data.map((r,i)=>{
+    const name=r.namedetails?.name||r.display_name.split(',')[0];
+    const addr=r.display_name.split(',').slice(1,3).join(',').trim();
+    return `<div class="autocomplete-item" onclick="pickStation('${name.replace(/'/g,"\\'")}','${addr.replace(/'/g,"\\'")}')">
+      <div>${name}</div>
+      <div class="autocomplete-sub">${addr}</div>
+    </div>`;
+  }).join('');
+}
+
+function pickStation(name, addr) {
+  formData.station=name;
+  const input=document.getElementById('station-input');
+  if(input) input.value=name;
+  const box=document.getElementById('station-suggestions');
+  if(box) box.style.display='none';
+}
+
+// close suggestions when clicking outside
+document.addEventListener('click',e=>{ if(!e.target.closest('#station-input')&&!e.target.closest('#station-suggestions')){ const b=document.getElementById('station-suggestions'); if(b) b.style.display='none'; } });
+
+// ── save fill-up ──────────────────────────────────────────────────────────────
+function handleSave(){
+  formErrors={};
+  if(!formData.date) formErrors.date='Required';
+  if(!formData.gallons||+formData.gallons<=0) formErrors.gallons='Must be > 0';
+  if(!formData.pricePerGallon||+formData.pricePerGallon<=0) formErrors.pricePerGallon='Must be > 0';
+  if(formData.odometer&&+formData.odometer<=0) formErrors.odometer='Must be > 0';
+  if(formData.milesDriven&&+formData.milesDriven<=0) formErrors.milesDriven='Must be > 0';
+  if(formData.odometer&&entries.length){
+    const carEntries=formData.carId?entries.filter(e=>e.carId===formData.carId):entries;
+    const lastOdo=[...carEntries].reverse().find(e=>e.odometer)?.odometer;
+    if(lastOdo&&+formData.odometer<lastOdo) formErrors.odometer=`Lower than last reading (${Number(lastOdo).toLocaleString()} mi)`;
+  }
+  if(Object.keys(formErrors).length){renderAdd();return;}
+  const totalCost=formData.totalCost&&+formData.totalCost>0?+formData.totalCost:+(+formData.gallons * +formData.pricePerGallon).toFixed(2);
+  const entry={...formData,id:Date.now(),totalCost,gallons:+formData.gallons,pricePerGallon:+formData.pricePerGallon,odometer:formData.odometer?+formData.odometer:null,milesDriven:formData.milesDriven?+formData.milesDriven:null,carId:formData.carId||null};
+  entries.push(entry); saveEntries(); pushFillup(entry);
+  formData={date:todayStr(),carId:formData.carId}; // keep car selection
+  formErrors={};
   updateHeader(); switchView('log');
 }
 
-async function handleFile(input) {
-  const file = input.files?.[0]; if (!file) return; input.value='';
-  previewImgUrl = URL.createObjectURL(file); window._scanning=true; scanStatus=null; renderAdd();
-  try {
-    const base64 = await new Promise((res,rej) => { const r=new FileReader(); r.onload=()=>res(r.result.split(',')[1]); r.onerror=()=>rej(new Error('Read failed')); r.readAsDataURL(file); });
-    const resp = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, messages:[{ role:'user', content:[{ type:'image', source:{type:'base64',media_type:file.type||'image/jpeg',data:base64}},{ type:'text', text:`Extract gas pump or receipt data. Return ONLY valid JSON, no markdown:\n{"date":"YYYY-MM-DD or null","gallons":number|null,"pricePerGallon":number|null,"totalCost":number|null,"station":"string|null","grade":"Regular|Midgrade|Premium|Diesel|null"}\nToday is ${todayStr()}. Use today if no date visible. Use null for unreadable fields.`}]}]}) });
-    const data = await resp.json();
-    const raw = data.content?.find(b=>b.type==='text')?.text?.trim()||'';
-    let parsed; try { parsed=JSON.parse(raw); } catch { const m=raw.match(/\{[\s\S]*?\}/); parsed=m?JSON.parse(m[0]):null; }
-    if (!parsed) throw new Error("Couldn't read clearly. Fill in manually.");
-    if (parsed.date) formData.date=parsed.date;
-    if (parsed.gallons!=null) formData.gallons=String(parsed.gallons);
-    if (parsed.pricePerGallon!=null) formData.pricePerGallon=String(parsed.pricePerGallon);
-    if (parsed.totalCost!=null) formData.totalCost=String(parsed.totalCost);
-    if (parsed.station) formData.station=parsed.station;
-    if (parsed.grade) formData.grade=parsed.grade;
-    scanStatus='ok';
-  } catch(err) { scanStatus='error'; window._scanMsg=err.message||'Scan failed.'; }
-  finally { window._scanning=false; renderAdd(); }
+async function handleFile(input){
+  const file=input.files?.[0]; if(!file) return; input.value='';
 }
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+// ── init ──────────────────────────────────────────────────────────────────────
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 
-// restore session from localStorage
-const savedUser = localStorage.getItem('gas_user');
-if (savedUser) {
-  try {
-    currentUser = JSON.parse(savedUser);
-    showApp();
-    loadFromSupabase();
-  } catch(e) {
-    showAuth('login');
-  }
-} else {
-  showAuth('login');
-}
+const savedUser=localStorage.getItem('gas_user');
+if(savedUser){
+  try{ currentUser=JSON.parse(savedUser); showApp(); loadAll(); }
+  catch(e){ showAuth('login'); }
+} else { showAuth('login'); }
 </script>
 </body>
 </html>
