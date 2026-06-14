@@ -83,6 +83,11 @@
   </style>
 </head>
 <body>
+<!-- Auth screen -->
+<div id="auth-screen" style="display:flex;min-height:100vh;align-items:center;justify-content:center;background:#090b12;"></div>
+
+<!-- Main app -->
+<div id="main-app" style="display:none">
 <div class="app">
   <div class="header">
     <div>
@@ -90,8 +95,8 @@
       <div class="header-title">Gas Tracker</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
-      <div id="entry-count" style="font-size:12px;color:#3a3d52;font-family:'DM Mono',monospace;"></div>
       <div id="sync-status" style="font-size:11px;"></div>
+      <div id="user-email" style="font-size:10px;color:#3a3d52;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" onclick="confirmSignOut()"></div>
     </div>
   </div>
   <div id="persist-banner" class="banner banner-warn" style="display:none">☁ Data synced to cloud — safe across devices.</div>
@@ -106,17 +111,129 @@
     <button class="nav-btn" data-view="add" onclick="switchView('add')"><span class="nav-icon">⛽</span>Add</button>
   </nav>
 </div>
+</div><!-- end main-app -->
 
 <script>
 // ── Supabase config ───────────────────────────────────────────────────────────
 const SUPA_URL = 'https://kqmsjolekyivtqszqbvu.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxbXNqb2xla3lpdnRxc3pxYnZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMTUwNTUsImV4cCI6MjA5Njc5MTA1NX0.qTkBhdGMyO4maejF4EagwZg7PH0JMGSZhuFFYeuh6Lc';
-const HEADERS = { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY };
+
+let currentUser = null; // { access_token, user: { id, email } }
+
+function authHeaders() {
+  const token = currentUser?.access_token || SUPA_KEY;
+  return { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + token };
+}
 
 async function dbFetch(path, opts={}) {
-  const res = await fetch(SUPA_URL + '/rest/v1/' + path, { headers: HEADERS, ...opts });
+  const res = await fetch(SUPA_URL + '/rest/v1/' + path, { headers: authHeaders(), ...opts });
   if (!res.ok) throw new Error(await res.text());
   return res.status === 204 ? null : res.json();
+}
+
+async function authFetch(path, body) {
+  const res = await fetch(SUPA_URL + '/auth/v1/' + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY },
+    body: JSON.stringify(body)
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error_description || data.msg || 'Auth error');
+  return data;
+}
+
+// ── auth ──────────────────────────────────────────────────────────────────────
+async function signUp(email, password) {
+  const data = await authFetch('signup', { email, password });
+  currentUser = data;
+  localStorage.setItem('gas_user', JSON.stringify(data));
+  showApp();
+  loadFromSupabase();
+}
+
+async function signIn(email, password) {
+  const data = await authFetch('token?grant_type=password', { email, password });
+  currentUser = data;
+  localStorage.setItem('gas_user', JSON.stringify(data));
+  showApp();
+  loadFromSupabase();
+}
+
+function signOut() {
+  currentUser = null;
+  entries = [];
+  localStorage.removeItem('gas_user');
+  localStorage.removeItem('gas_tracker_entries');
+  showAuth('login');
+}
+
+function showApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = 'block';
+  const email = currentUser?.user?.email || '';
+  document.getElementById('user-email').textContent = email;
+  switchView('dashboard');
+  updateHeader();
+}
+
+function showAuth(mode='login') {
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('main-app').style.display = 'none';
+  renderAuth(mode);
+}
+
+function renderAuth(mode) {
+  const isLogin = mode === 'login';
+  document.getElementById('auth-screen').innerHTML = `
+    <div style="width:100%;max-width:380px;padding:32px 24px;">
+      <div style="text-align:center;margin-bottom:40px">
+        <img src="icon-192.png" style="width:72px;height:72px;border-radius:18px;margin-bottom:16px" />
+        <h1 style="font-size:22px;font-weight:600;color:#e8eaf6;margin-bottom:4px">Gas Tracker</h1>
+        <p style="font-size:13px;color:#565a72">${isLogin ? 'Sign in to your account' : 'Create your account'}</p>
+      </div>
+      <div id="auth-error" style="display:none;background:#130909;border:1px solid #7f1d1d;border-radius:8px;padding:10px 12px;margin-bottom:16px;color:#f87171;font-size:13px;"></div>
+      <div class="field">
+        <div class="field-label">Email</div>
+        <input class="field-input" type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="field">
+        <div class="field-label">Password</div>
+        <input class="field-input" type="password" id="auth-password" placeholder="••••••••" autocomplete="${isLogin?'current-password':'new-password'}" />
+      </div>
+      <button class="primary-btn" id="auth-submit" onclick="handleAuth('${mode}')" style="margin-top:8px">
+        ${isLogin ? 'Sign In' : 'Create Account'}
+      </button>
+      <p style="text-align:center;font-size:13px;color:#565a72;margin-top:16px">
+        ${isLogin
+          ? `Don't have an account? <a href="#" onclick="renderAuth('signup');return false" style="color:#60a5fa;text-decoration:none">Sign up</a>`
+          : `Already have an account? <a href="#" onclick="renderAuth('login');return false" style="color:#60a5fa;text-decoration:none">Sign in</a>`
+        }
+      </p>
+    </div>
+  `;
+
+  // allow enter key to submit
+  setTimeout(() => {
+    document.getElementById('auth-password')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleAuth(mode);
+    });
+  }, 50);
+}
+
+async function handleAuth(mode) {
+  const email = document.getElementById('auth-email')?.value?.trim();
+  const password = document.getElementById('auth-password')?.value;
+  const errEl = document.getElementById('auth-error');
+  const btn = document.getElementById('auth-submit');
+  if (!email || !password) { errEl.textContent='Please fill in all fields.'; errEl.style.display='block'; return; }
+  btn.textContent = 'Please wait…'; btn.disabled = true;
+  try {
+    if (mode === 'login') await signIn(email, password);
+    else await signUp(email, password);
+  } catch(e) {
+    errEl.textContent = e.message; errEl.style.display = 'block';
+    btn.textContent = mode === 'login' ? 'Sign In' : 'Create Account'; btn.disabled = false;
+  }
 }
 
 // ── state ─────────────────────────────────────────────────────────────────────
@@ -129,19 +246,16 @@ let scanStatus = null;
 let previewImgUrl = null;
 let formErrors = {};
 let formData = { date: todayStr() };
-let syncStatus = 'idle'; // idle | syncing | ok | error
+let syncStatus = 'idle';
 
-// save locally AND push to Supabase
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-}
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
 
 async function pushToSupabase(entry) {
   setSyncStatus('syncing');
   try {
     await dbFetch('fillups', {
       method: 'POST',
-      headers: { ...HEADERS, 'Prefer': 'resolution=merge-duplicates' },
+      headers: { ...authHeaders(), 'Prefer': 'resolution=merge-duplicates' },
       body: JSON.stringify({
         id: entry.id,
         date: entry.date,
@@ -153,13 +267,11 @@ async function pushToSupabase(entry) {
         payment_method: entry.paymentMethod || null,
         odometer: entry.odometer || null,
         miles_driven: entry.milesDriven || null,
+        user_id: currentUser?.user?.id || null,
       })
     });
     setSyncStatus('ok');
-  } catch(e) {
-    console.error('Supabase push failed:', e);
-    setSyncStatus('error');
-  }
+  } catch(e) { console.error('Push failed:', e); setSyncStatus('error'); }
 }
 
 async function deleteFromSupabase(id) {
@@ -177,15 +289,12 @@ async function loadFromSupabase() {
       paymentMethod: r.payment_method, odometer: r.odometer ? +r.odometer : null,
       milesDriven: r.miles_driven ? +r.miles_driven : null,
     }));
-    save(); // update local cache
+    save();
     setSyncStatus('ok');
     updateHeader();
     if (currentView === 'dashboard') renderDashboard();
     else if (currentView === 'log') renderLog();
-  } catch(e) {
-    console.error('Supabase load failed:', e);
-    setSyncStatus('error');
-  }
+  } catch(e) { console.error('Load failed:', e); setSyncStatus('error'); }
 }
 
 function setSyncStatus(s) {
@@ -294,8 +403,13 @@ function switchView(v) {
   updateHeader();
 }
 
+function confirmSignOut() {
+  if (confirm(`Sign out of ${currentUser?.user?.email}?`)) signOut();
+}
+
 function updateHeader() {
-  document.getElementById('entry-count').textContent = entries.length ? `${entries.length} fill-up${entries.length!==1?'s':''}` : '';
+  const countEl = document.getElementById('entry-count');
+  if (countEl) countEl.textContent = entries.length ? `${entries.length} fill-up${entries.length!==1?'s':''}` : '';
   document.getElementById('log-label').textContent = entries.length ? `Log (${entries.length})` : 'Log';
   document.getElementById('persist-banner').style.display = entries.length ? 'block' : 'none';
 }
@@ -583,9 +697,20 @@ async function handleFile(input) {
 }
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
-switchView('dashboard');
-updateHeader();
-loadFromSupabase(); // load fresh data from cloud on every app open
+
+// restore session from localStorage
+const savedUser = localStorage.getItem('gas_user');
+if (savedUser) {
+  try {
+    currentUser = JSON.parse(savedUser);
+    showApp();
+    loadFromSupabase();
+  } catch(e) {
+    showAuth('login');
+  }
+} else {
+  showAuth('login');
+}
 </script>
 </body>
 </html>
