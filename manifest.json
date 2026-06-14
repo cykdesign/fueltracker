@@ -1,7 +1,7 @@
 {
-  "name": "Gas Tracker",
-  "short_name": "Gas Tracker",
-  "description": "Track your gas fill-ups, price per gallon, and fuel economy",
+  "name": "Loggy",
+  "short_name": "Loggy",
+  "description": "Track your fuel fill-ups, price per gallon, and fuel economy",
   "start_url": "/fueltracker/",
   "scope": "/fueltracker/",
   "display": "standalone",

@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Gas Tracker" />
-  <title>Gas Tracker</title>
+  <title>Loggy</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500;600&display=swap" rel="stylesheet" />
@@ -104,8 +104,8 @@
 <div class="app">
   <div class="header">
     <div>
-      <div class="header-sub">Fuel Log</div>
-      <div class="header-title">Gas Tracker</div>
+      
+      <div class="header-title">Loggy</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
       <div id="sync-status" style="font-size:11px;"></div>
@@ -188,8 +188,8 @@ function renderAuth(mode) {
   document.getElementById('auth-screen').innerHTML = `
     <div style="width:100%;max-width:380px;padding:32px 24px">
       <div style="text-align:center;margin-bottom:40px">
-        <img src="icon-192.png" style="width:72px;height:72px;border-radius:18px;margin-bottom:16px"/>
-        <h1 style="font-size:22px;font-weight:600;color:#e8eaf6;margin-bottom:4px">Gas Tracker</h1>
+        <div style="width:72px;height:72px;border-radius:18px;margin:0 auto 16px;overflow:hidden;flex-shrink:0"><svg width="72" height="72" viewBox="0 0 535 535" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="535" height="535" rx="16" fill="#FFF7EE"/><path d="M177.168 196.882C176.015 201.844 171.067 204.929 166.116 203.773L146.118 199.105C141.167 197.949 138.089 192.99 139.242 188.028L158.678 104.403C159.831 99.4414 164.779 96.3559 169.73 97.5118L189.727 102.18C194.678 103.336 197.757 108.296 196.604 113.257L177.168 196.882Z" fill="url(#lg1)"/><path fill-rule="evenodd" clip-rule="evenodd" d="M213.535 101.163C214.671 96.2051 219.597 93.1037 224.547 94.2315L287.392 108.556C292.349 109.686 295.453 114.63 294.326 119.597L248.496 321.562C244.264 340.213 258.408 357.975 277.493 357.975H387.796C392.879 357.975 397 362.106 397 367.2V431.775C397 436.87 392.879 441 387.796 441H194.858L189.868 440.964C189.292 440.988 188.714 441 188.132 441C165.061 441 146.358 422.255 146.358 399.133C146.358 395.43 146.839 391.84 147.739 388.42C147.735 388.437 147.73 388.454 147.725 388.471L213.535 101.163Z" fill="url(#lg2)"/><defs><linearGradient id="lg1" x1="156.979" y1="108.547" x2="397.704" y2="440.489" gradientUnits="userSpaceOnUse"><stop stop-color="#FA9393"/><stop offset="1" stop-color="#ECC381"/></linearGradient><linearGradient id="lg2" x1="156.979" y1="108.547" x2="397.704" y2="440.489" gradientUnits="userSpaceOnUse"><stop stop-color="#FA9393"/><stop offset="1" stop-color="#ECC381"/></linearGradient></defs></svg></div>
+        <h1 style="font-size:22px;font-weight:600;color:#e8eaf6;margin-bottom:4px">Loggy</h1>
         <p style="font-size:13px;color:#565a72">${isLogin?'Sign in to your account':'Create your account'}</p>
       </div>
       <div id="auth-error" style="display:none;background:#130909;border:1px solid #7f1d1d;border-radius:8px;padding:10px 12px;margin-bottom:16px;color:#f87171;font-size:13px"></div>
