@@ -103,8 +103,8 @@
 <div id="main-app" style="display:none">
 <div class="app">
   <div class="header">
-    <div>
-      
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0"><svg width="32" height="32" viewBox="0 0 535 535" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="535" height="535" rx="16" fill="#FFF7EE"/><path d="M177.168 196.882C176.015 201.844 171.067 204.929 166.116 203.773L146.118 199.105C141.167 197.949 138.089 192.99 139.242 188.028L158.678 104.403C159.831 99.4414 164.779 96.3559 169.73 97.5118L189.727 102.18C194.678 103.336 197.757 108.296 196.604 113.257L177.168 196.882Z" fill="url(#h1)"/><path fill-rule="evenodd" clip-rule="evenodd" d="M213.535 101.163C214.671 96.2051 219.597 93.1037 224.547 94.2315L287.392 108.556C292.349 109.686 295.453 114.63 294.326 119.597L248.496 321.562C244.264 340.213 258.408 357.975 277.493 357.975H387.796C392.879 357.975 397 362.106 397 367.2V431.775C397 436.87 392.879 441 387.796 441H194.858L189.868 440.964C189.292 440.988 188.714 441 188.132 441C165.061 441 146.358 422.255 146.358 399.133C146.358 395.43 146.839 391.84 147.739 388.42L213.535 101.163Z" fill="url(#h2)"/><defs><linearGradient id="h1" x1="156.979" y1="108.547" x2="397.704" y2="440.489" gradientUnits="userSpaceOnUse"><stop stop-color="#FA9393"/><stop offset="1" stop-color="#ECC381"/></linearGradient><linearGradient id="h2" x1="156.979" y1="108.547" x2="397.704" y2="440.489" gradientUnits="userSpaceOnUse"><stop stop-color="#FA9393"/><stop offset="1" stop-color="#ECC381"/></linearGradient></defs></svg></div>
       <div class="header-title">Loggy</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
@@ -486,14 +486,18 @@ function renderLog() {
   const list=[...filteredEntries()].reverse();
   const cd=withMpg(filteredEntries());
   if(!list.length){
-    el.innerHTML=`${carTabsHTML()}<div class="empty"><div class="empty-icon">📋</div><p style="font-size:14px;margin-bottom:20px">No fill-ups yet.</p><button class="primary-btn" style="max-width:200px;margin:0 auto" onclick="switchView('add')">+ Log a Fill-up</button></div>`;
+    el.innerHTML=`${carTabsHTML()}<div class="empty"><div class="empty-icon">📋</div><p style="font-size:14px;margin-bottom:20px">No fill-ups yet.</p><button class="primary-btn" style="max-width:200px;margin:0 auto 12px" onclick="switchView('add')">+ Log a Fill-up</button><br><button class="ghost-btn" onclick="document.getElementById('csv-import-input-empty').click()">⬆ Import from CSV</button><input type="file" id="csv-import-input-empty" accept=".csv" style="display:none" onchange="importCSV(this)"/></div>`;
     return;
   }
   el.innerHTML=`
     ${carTabsHTML()}
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
       <p style="color:#3a3d52;font-size:12px">${list.length} fill-up${list.length!==1?'s':''} · tap to expand</p>
-      <button class="green-btn" onclick="exportCSV()">⬇ CSV</button>
+      <div style="display:flex;gap:8px">
+        <button class="ghost-btn" onclick="document.getElementById('csv-import-input').click()">⬆ Import</button>
+        <input type="file" id="csv-import-input" accept=".csv" style="display:none" onchange="importCSV(this)"/>
+        <button class="green-btn" onclick="exportCSV()">⬇ CSV</button>
+      </div>
     </div>
     ${list.map(e=>{
       const cdEntry=cd.find(d=>d.id===e.id);
@@ -543,7 +547,102 @@ function exportCSV(){
   const csv=[headers,...rows].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download=`gas-tracker-${todayStr()}.csv`; a.click();
+  a.download=`loggy-${todayStr()}.csv`; a.click();
+}
+
+async function importCSV(input) {
+  const file = input.files?.[0]; if (!file) return; input.value='';
+  const text = await file.text();
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) { alert('CSV appears empty.'); return; }
+
+  // parse header row — strip quotes and lowercase
+  const headers = lines[0].split(',').map(h => h.replace(/"/g,'').trim().toLowerCase());
+
+  // column index helpers
+  const col = (names) => {
+    for (const n of names) { const i = headers.indexOf(n); if (i !== -1) return i; }
+    return -1;
+  };
+
+  const iDate       = col(['date']);
+  const iGallons    = col(['gallons']);
+  const iPrice      = col(['price/gal','price per gallon','pricepergallon','price/gallon']);
+  const iTotal      = col(['total cost','totalcost','total']);
+  const iStation    = col(['station']);
+  const iGrade      = col(['grade','fuel grade']);
+  const iPayment    = col(['payment','payment method']);
+  const iOdometer   = col(['odometer']);
+  const iMiles      = col(['miles driven','milesdirven','miles since last fill-up']);
+
+  if (iDate === -1 || iGallons === -1 || iPrice === -1) {
+    alert('CSV missing required columns (Date, Gallons, Price/Gal). Make sure you\'re using a Loggy export.');
+    return;
+  }
+
+  const parseVal = (row, i) => {
+    if (i === -1 || !row[i]) return null;
+    return row[i].replace(/"/g,'').trim();
+  };
+
+  let imported = 0, skipped = 0;
+  const newEntries = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    // handle quoted commas by splitting carefully
+    const row = lines[i].match(/(".*?"|[^,]+)(?=,|$)/g)?.map(v=>v.replace(/^"|"$/g,'').trim()) || lines[i].split(',').map(v=>v.replace(/"/g,'').trim());
+    const date     = parseVal(row, iDate);
+    const gallons  = parseFloat(parseVal(row, iGallons));
+    const price    = parseFloat(parseVal(row, iPrice));
+    if (!date || isNaN(gallons) || isNaN(price)) { skipped++; continue; }
+
+    const rawTotal = parseFloat(parseVal(row, iTotal));
+    const totalCost = !isNaN(rawTotal) && rawTotal > 0 ? rawTotal : +(gallons * price).toFixed(2);
+    const odo      = parseFloat(parseVal(row, iOdometer));
+    const miles    = parseFloat(parseVal(row, iMiles));
+
+    const entry = {
+      id: Date.now() + i,
+      date, gallons, pricePerGallon: price, totalCost,
+      station:       parseVal(row, iStation) || null,
+      grade:         parseVal(row, iGrade) || null,
+      paymentMethod: parseVal(row, iPayment) || null,
+      odometer:      !isNaN(odo) && odo > 0 ? odo : null,
+      milesDriven:   !isNaN(miles) && miles > 0 ? miles : null,
+      carId: null,
+    };
+
+    // skip duplicates (same date + gallons + price already in entries)
+    const isDupe = entries.some(e => e.date===entry.date && +e.gallons===entry.gallons && +e.pricePerGallon===entry.pricePerGallon);
+    if (isDupe) { skipped++; continue; }
+
+    newEntries.push(entry);
+    imported++;
+  }
+
+  if (!newEntries.length) {
+    alert(`No new entries found. ${skipped} row${skipped!==1?'s':''} skipped (duplicates or bad data).`);
+    return;
+  }
+
+  // confirm before adding
+  const msg = `Import ${imported} fill-up${imported!==1?'s':''}${skipped?` (${skipped} skipped as duplicates)`:''} ?`;
+  if (!confirm(msg)) return;
+
+  // add to local state and push to Supabase
+  entries.push(...newEntries);
+  saveEntries();
+  updateHeader();
+  renderLog();
+
+  // push each to Supabase
+  setSyncStatus('syncing');
+  try {
+    for (const entry of newEntries) await pushFillup(entry);
+    setSyncStatus('ok');
+  } catch(e) { setSyncStatus('error'); }
+
+  alert(`✓ Imported ${imported} fill-up${imported!==1?'s':''}. Assign cars from the Log view.`);
 }
 
 // ── garage ────────────────────────────────────────────────────────────────────
