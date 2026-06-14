@@ -530,7 +530,12 @@ function renderLog() {
         </div>
         <div class="entry-detail ${isOpen?'open':''}">
           <div class="detail-grid">${details.map(([k,v])=>`<div><div class="detail-key">${k}</div><div class="detail-val">${v}</div></div>`).join('')}</div>
-          ${isDel?`<div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:#f87171;flex:1">Delete this fill-up?</span><button class="delete-btn" onclick="confirmDelete(${e.id})">Delete</button><button class="ghost-btn" onclick="deleteConfirmId=null;renderLog()">Cancel</button></div>`:`<button class="ghost-btn" onclick="startDelete(${e.id})">🗑 Delete</button>`}
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            ${isDel
+              ? `<span style="font-size:12px;color:#f87171;flex:1">Delete this fill-up?</span><button class="delete-btn" onclick="confirmDelete(${e.id})">Delete</button><button class="ghost-btn" onclick="deleteConfirmId=null;renderLog()">Cancel</button>`
+              : `<button class="ghost-btn" onclick="openEditFillup(${e.id})">✏️ Edit</button><button class="ghost-btn" style="color:#f87171;border-color:#7f1d1d" onclick="startDelete(${e.id})">🗑 Delete</button>`
+            }
+          </div>
         </div>
       </div>`;
     }).join('')}`;
@@ -539,6 +544,90 @@ function renderLog() {
 function toggleEntry(id){expandedId=expandedId===id?null:id;deleteConfirmId=null;renderLog();}
 function startDelete(id){deleteConfirmId=id;renderLog();}
 function confirmDelete(id){entries=entries.filter(e=>e.id!==id);saveEntries();deleteFillup(id);expandedId=null;deleteConfirmId=null;renderLog();updateHeader();}
+
+function openEditFillup(id) {
+  const e = entries.find(e=>e.id===id);
+  if (!e) return;
+  const carOptions = cars.map(c=>`<option value="${c.id}" ${e.carId===c.id?'selected':''}>${c.nickname||`${c.year||''} ${c.make} ${c.model}`.trim()}</option>`).join('');
+  document.getElementById('modal-root').innerHTML=`
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal" style="max-height:85vh;overflow-y:auto">
+        <div class="modal-title">Edit Fill-up</div>
+        <div class="field"><div class="field-label">Date <span style="color:#f87171">*</span></div><input class="field-input" type="date" id="ef-date" value="${e.date}"/></div>
+        <div class="field"><div class="field-label">Gallons <span style="color:#f87171">*</span></div><input class="field-input" type="number" id="ef-gallons" value="${e.gallons}" step="0.001" min="0"/></div>
+        <div class="field"><div class="field-label">Price / Gallon ($) <span style="color:#f87171">*</span></div><input class="field-input" type="number" id="ef-price" value="${e.pricePerGallon}" step="0.001" min="0"/></div>
+        <div class="field"><div class="field-label">Total Cost ($)</div><input class="field-input" type="number" id="ef-total" value="${e.totalCost}" step="0.01" min="0"/></div>
+        <div class="field"><div class="field-label">Station</div><input class="field-input" type="text" id="ef-station" value="${e.station||''}"/></div>
+        <div class="field"><div class="field-label">Fuel Grade</div>
+          <select class="field-input" id="ef-grade">
+            <option value="">Select…</option>
+            ${['Regular','Midgrade','Premium','Diesel'].map(g=>`<option ${e.grade===g?'selected':''}>${g}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field"><div class="field-label">Payment</div>
+          <select class="field-input" id="ef-payment">
+            <option value="">Select…</option>
+            ${['Credit','Cash','Debit','Fleet Card'].map(p=>`<option ${e.paymentMethod===p?'selected':''}>${p}</option>`).join('')}
+          </select>
+        </div>
+        ${cars.length?`<div class="field"><div class="field-label">Car</div><select class="field-input" id="ef-car"><option value="">No car</option>${carOptions}</select></div>`:''}
+        <div class="field"><div class="field-label">Odometer (mi)</div><input class="field-input" type="number" id="ef-odometer" value="${e.odometer||''}" step="1" min="0"/></div>
+        <div class="field"><div class="field-label">Miles Since Last Fill-up</div><input class="field-input" type="number" id="ef-miles" value="${e.milesDriven||''}" step="1" min="0"/></div>
+        <div id="ef-error" style="display:none;color:#f87171;font-size:12px;margin-bottom:12px"></div>
+        <button class="primary-btn" onclick="saveEditFillup(${id})">Save Changes</button>
+        <button class="ghost-btn" style="width:100%;text-align:center;margin-top:4px" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>`;
+}
+
+async function saveEditFillup(id) {
+  const date     = document.getElementById('ef-date')?.value;
+  const gallons  = parseFloat(document.getElementById('ef-gallons')?.value);
+  const price    = parseFloat(document.getElementById('ef-price')?.value);
+  const errEl    = document.getElementById('ef-error');
+
+  if (!date || isNaN(gallons) || gallons<=0 || isNaN(price) || price<=0) {
+    errEl.textContent='Date, gallons, and price are required and must be > 0.';
+    errEl.style.display='block'; return;
+  }
+
+  const rawTotal = parseFloat(document.getElementById('ef-total')?.value);
+  const totalCost = (!isNaN(rawTotal) && rawTotal>0) ? rawTotal : +(gallons*price).toFixed(2);
+
+  const updated = {
+    ...entries.find(e=>e.id===id),
+    date, gallons, pricePerGallon: price, totalCost,
+    station:       document.getElementById('ef-station')?.value.trim()||null,
+    grade:         document.getElementById('ef-grade')?.value||null,
+    paymentMethod: document.getElementById('ef-payment')?.value||null,
+    carId:         document.getElementById('ef-car')?.value||null,
+    odometer:      parseFloat(document.getElementById('ef-odometer')?.value)||null,
+    milesDriven:   parseFloat(document.getElementById('ef-miles')?.value)||null,
+  };
+
+  entries = entries.map(e=>e.id===id ? updated : e);
+  saveEntries();
+  closeModal();
+  renderLog();
+
+  // push update to Supabase
+  setSyncStatus('syncing');
+  try {
+    await dbFetch('fillups', {
+      method: 'POST',
+      headers: authHeaders({'Prefer':'resolution=merge-duplicates'}),
+      body: JSON.stringify({
+        id: updated.id, date: updated.date, gallons: updated.gallons,
+        price_per_gallon: updated.pricePerGallon, total_cost: updated.totalCost,
+        station: updated.station, grade: updated.grade,
+        payment_method: updated.paymentMethod, odometer: updated.odometer,
+        miles_driven: updated.milesDriven, car_id: updated.carId,
+        user_id: currentUser?.user?.id||null,
+      })
+    });
+    setSyncStatus('ok');
+  } catch(e) { console.error(e); setSyncStatus('error'); }
+}
 
 function exportCSV(){
   const cd=withMpg(filteredEntries());
