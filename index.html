@@ -610,19 +610,23 @@ async function saveEditFillup(id) {
   closeModal();
   renderLog();
 
-  // push update to Supabase
+  // push update to Supabase using PATCH (respects update RLS policy)
   setSyncStatus('syncing');
   try {
-    await dbFetch('fillups', {
-      method: 'POST',
-      headers: authHeaders({'Prefer':'resolution=merge-duplicates'}),
+    await dbFetch(`fillups?id=eq.${id}`, {
+      method: 'PATCH',
+      headers: authHeaders({'Prefer':'return=minimal'}),
       body: JSON.stringify({
-        id: updated.id, date: updated.date, gallons: updated.gallons,
-        price_per_gallon: updated.pricePerGallon, total_cost: updated.totalCost,
-        station: updated.station, grade: updated.grade,
-        payment_method: updated.paymentMethod, odometer: updated.odometer,
-        miles_driven: updated.milesDriven, car_id: updated.carId,
-        user_id: currentUser?.user?.id||null,
+        date: updated.date,
+        gallons: updated.gallons,
+        price_per_gallon: updated.pricePerGallon,
+        total_cost: updated.totalCost,
+        station: updated.station,
+        grade: updated.grade,
+        payment_method: updated.paymentMethod,
+        odometer: updated.odometer,
+        miles_driven: updated.milesDriven,
+        car_id: updated.carId,
       })
     });
     setSyncStatus('ok');
